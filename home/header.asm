@@ -1,7 +1,7 @@
 ; rst vectors (called through the rst instruction)
 
 SECTION "rst0", ROM0[$0000]
-Func_0000::
+Jumptable::
 	add a
 	pop hl
 	ld e, a
@@ -15,22 +15,23 @@ Func_0000::
 
 SECTION "rst10", ROM0[$0010]
 Func_0010::
-	ldh a, [$ff8e]
-	ldh [$ffc3], a
+	ldh a, [hff8e]
+	ldh [hffc3], a
 	ld a, b
-	ldh [$ff8e], a
+	ldh [hff8e], a
 	ld [rROMB0], a
 	ld bc, $001f
 	push bc
 	jp hl
 
 Func_001f::
-	ldh a, [$ffc3]
-	ldh [$ff8e], a
+	ldh a, [hffc3]
+	ldh [hff8e], a
 	ld [rROMB0], a
 	ret
 
-	rra
+	db $1f
+
 SECTION "rst28", ROM0[$0028]
 Func_0028::
 	ld c, 0
@@ -85,7 +86,7 @@ Func_006c::
 	ld [rROMB0], a
 	ld a, b
 	call Func_0061
-	ldh a, [$ff8e]
+	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
@@ -94,7 +95,7 @@ Func_007b::
 	di
 	ld [rROMB0], a
 	call Func_0089
-	ldh a, [$ff8e]
+	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
@@ -119,7 +120,7 @@ Func_0097::
 	di
 	ld [rROMB0], a
 	call Func_00a5
-	ldh a, [$ff8e]
+	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
@@ -197,8 +198,8 @@ Func_00d9::
 Func_00df::
 	di
 	ld [rROMB0], a
-	rst $28
-	ldh a, [$ff8e]
+	rst Func_0028
+	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
