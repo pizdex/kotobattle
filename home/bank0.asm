@@ -2,15 +2,18 @@ _Start::
 	cp BOOTUP_A_CGB
 	jp nz, NotCGB
 
-Func_0155::
+Init::
 	di
-	call Func_045f
-	ld sp, $cfff
+
+	call DisableLCD
+
+	ld sp, wStackTop
 
 	ld a, BANK(Func_7f_4000)
 	call Bankswitch
 	call Func_7f_4000
 
+; Load character set 1
 	ld a, $7f
 	call Bankswitch
 	ld a, 2
@@ -20,7 +23,7 @@ Func_0155::
 	ld hl, Gfx_7f_481d
 	ld de, w2d000
 	call Func_0f79
-
+; Load character set 2
 	ld a, 3
 	ldh [hRAMBank], a
 	ldh [rSVBK], a
@@ -38,8 +41,8 @@ Func_0155::
 	xor a
 	ldh [hff95], a
 	call Func_0d7a
-	call Joypad
-	call Func_01b6
+	call ReadJoypad
+	call CheckSoftReset
 	call Func_02ac
 	xor a
 	ldh [hff8d], a
@@ -49,16 +52,16 @@ Func_0155::
 	jr z, .wait
 	jr .asm_0195
 
-NotCGB::
+NotCGB:
 	ld a, BANK(Func_01_54d3)
 	ld [rROMB0], a
 	jp Func_01_54d3
 
-Func_01b6::
+CheckSoftReset:
 	ldh a, [hJoypadDown]
-	cp $0f
+	cp ~(A_BUTTON + B_BUTTON + START + SELECT)
 	ret nz
-	jp Func_0155
+	jp Init
 
 Func_01be::
 	dr $01be, $01fa
@@ -136,7 +139,7 @@ VBlank::
 	ld [hli], a ; HDMA5
 
 .asm_0256:
-	call hff80
+	call hTransferVirtualOAM
 	call Func_36ab
 	ldh a, [hRAMBank]
 	ldh [rSVBK], a
@@ -202,7 +205,7 @@ Func_0291::
 
 Func_02ac::
 	ldh a, [hffa8]
-	rst Jumptable
+	rst JumpTable
 
 unk_02af:
 	dw Func_02eb
@@ -245,56 +248,14 @@ Func_03f6::
 	call Func_7e_4000
 	ret
 
-Joypad::
-; We can only get four inputs at a time.
-; We take d-pad first for no particular reason.
-	ld a, R_DPAD
-	ldh [rP1], a
-; Read two times to give the request time to take.
-	ldh a, [rP1]
-	ldh a, [rP1]
-; The Joypad register output is in the lo nybble (inversed).
-; We make the hi nybble of our new container d-pad input.
-	cpl
-	and $0f
-	swap a
-; We'll keep this in b for now.
-	ld b, a
+INCLUDE "home/joypad.asm"
 
-; Buttons make 8 total inputs (A, B, Select, Start).
-; We can fit this into one byte.
-	ld a, R_BUTTONS
-	ldh [rP1], a
-; Wait for input to stabilize.
-REPT 6
-	ldh a, [rP1]
-ENDR
-; Buttons take the lo nybble.
-	cpl
-	and $0f
-	or b
-	ld c, a
-
-; To get the delta we xor the last frame's input with the new one.
-	ldh a, [hJoypadDown]
-	xor c
-; Newly pressed this frame:
-	and c
-	ldh [hJoypadPressed], a
-; Currently pressed:
-	ld a, c
-	ldh [hJoypadDown], a
-
-; Reset the joypad register since we're done with it.
-	ld a, $30
-	ldh [rP1], a
+DisableLCD::
+; Ensure LCD is off
+	ldh a, [rLCDC]
+	and ~LCDCF_ON
+	ldh [rLCDC], a
 	ret
-
-Func_0430:
-	dr $0430, $045f
-
-Func_045f::
-	dr $045f, $0466
 
 Bankswitch::
 	ldh [hff8e], a
@@ -303,13 +264,390 @@ Bankswitch::
 	ret
 
 Func_046e::
-	dr $046e, $0d7a
+	di
+	ld [rROMB0], a
+	call Func_047c
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_047c::
+	dr $047c, $0490
+
+Func_0490::
+	push bc
+	ld h, $00
+	ld l, b
+	ld b, h
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, bc
+	add hl, de
+	pop bc
+	ret
+
+Func_049e:
+	di
+	ld [rROMB0], a
+	call Func_04ac
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_04ac::
+	dr $04ac, $0513
+
+Func_0513::
+	dr $0513, $0520
+
+Func_0520::
+	dr $0520, $057f
+
+Func_057f::
+	di
+	ld [rROMB0], a
+	call Func_0513
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_058d::
+	di
+	ld [rROMB0], a
+	call Func_0520
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_059b:
+	dr $059b, $05cd
+
+Func_05cd::
+	dr $05cd, $05f4
+
+Func_05f4::
+	dr $05f4, $061f
+
+Func_061f::
+	dr $061f, $066f
+
+Func_066f::
+	add hl, hl
+	add hl, de
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld h, d
+	ld l, e
+	ret
+
+Func_0677::
+	di
+	ld [rROMB0], a
+	call Func_066f
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_0685:
+	di
+	ld [rROMB0], a
+	ld b, [hl]
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_0691:
+	dr $0691, $06f7
+
+Func_06f7::
+	dr $06f7, $0719
+
+Func_0719::
+	dr $0719, $0800
+
+Func_0800::
+	dr $0800, $0862
+
+Func_0862::
+	dr $0862, $091a
+
+Func_091a::
+	ld a, [hli]
+	ld b, h
+	ld c, l
+	push de
+	ld de, unk_0a65
+	call PointerTable
+	pop de
+	inc hl
+	ld a, [hl]
+	and $01
+	ret z
+	ld h, b
+	ld l, c
+	ld a, [hl]
+	sub d
+	jr nc, .asm_0931
+	xor a
+
+.asm_0931
+	and a
+	ld [hl], a
+	ret nz
+	xor a
+	dec hl
+	ld [hl], a
+	ld hl, wc200
+	ld c, $28
+.asm_093c
+	ld a, [hl]
+	and a
+	jr z, .asm_0946
+	inc hl
+	inc hl
+	dec c
+	jr nz, .asm_093c
+	ret
+
+.asm_0946
+	ld d, h
+	ld e, l
+	inc de
+	inc de
+
+.asm_094a
+	dec c
+	jr z, .asm_0955
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	jr .asm_094a
+
+.asm_0955
+	ld a, [wc147]
+	and a
+	ret z
+	dec a
+	ld [wc147], a
+	ret
+
+Func_095f::
+	dr $095f, $09fb
+
+Func_09fb::
+	ld de, $7acf
+	ld a, $4d
+	call Func_0677
+	ret
+
+Func_0a04::
+	ld a, $29
+	ld [rROMB0], a
+	ld a, [wc132]
+	and $0f
+	ld de, $4000
+	call PointerTable
+	ld hl, wc133
+	ld a, [hl]
+	inc [hl]
+	ld h, 0
+	ld l, a
+	add hl, de
+	ld d, [hl]
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ld a, d
+	ret
+
+unk_0a25:
+REPT 32
+	dw $7fff
+ENDR
+
+unk_0a65:
+	dw unk_0ab7
+	dw unk_0ab7
+	dw unk_0ac1
+	dw unk_0acb
+	dw unk_0ad5
+	dw unk_0adf
+	dw unk_0ae9
+	dw unk_0af3
+	dw unk_0afd
+	dw unk_0b07
+	dw unk_0b11
+	dw unk_0b1b
+	dw unk_0b25
+	dw unk_0b2f
+	dw unk_0b39
+	dw unk_0b43
+	dw unk_0b4d
+	dw unk_0b57
+	dw unk_0b61
+	dw unk_0b6b
+	dw unk_0b75
+	dw unk_0b7f
+	dw unk_0b89
+	dw unk_0b93
+	dw unk_0b9d
+	dw unk_0ba7
+	dw unk_0bb1
+	dw unk_0bbb
+	dw unk_0bc5
+	dw unk_0bcf
+	dw unk_0bd9
+	dw unk_0be3
+	dw unk_0bed
+	dw unk_0bf7
+	dw unk_0c01
+	dw unk_0c0b
+	dw unk_0c15
+	dw unk_0c1f
+	dw unk_0c29
+	dw unk_0c33
+	dw unk_0c3d
+
+unk_0ab7:
+	db $00, $01, $8e, $7e, $5f, $a6, $5a, $a6, $00, $00
+unk_0ac1:
+	db $00, $01, $57, $86, $31, $0d, $28, $00, $00, $00
+unk_0acb:
+	db $00, $01, $05, $08, $0d, $28, $5e, $a0, $64, $00
+unk_0ad5:
+	db $00, $01, $5c, $7e, $77, $19, $02, $40, $07, $00
+unk_0adf:
+	db $00, $01, $13, $2e, $19, $0c, $4e, $08, $1c, $08
+unk_0ae9:
+	db $01, $01, $0a, $2b, $0a, $2b, $39, $2e, $33, $00
+unk_0af3:
+	db $02, $00, $63, $7e, $7f, $52, $19, $11, $36, $00
+unk_0afd:
+	db $02, $00, $24, $40, $2a, $10, $04, $16, $50, $07
+unk_0b07:
+	db $03, $01, $74, $58, $a0, $64, $19, $08, $12, $00
+unk_0b11:
+	db $03, $00, $6c, $8d, $a6, $19, $05, $1f, $23, $28
+unk_0b1b:
+	db $03, $01, $70, $85, $9e, $79, $19, $03, $10, $00
+unk_0b25:
+	db $03, $01, $6b, $64, $6b, $64, $19, $1e, $21, $27
+unk_0b2f:
+	db $03, $01, $5c, $7e, $77, $19, $22, $39, $1f, $00
+unk_0b39:
+	db $02, $00, $04, $16, $50, $07, $11, $4f, $03, $00
+unk_0b43:
+	db $04, $01, $6e, $5c, $a0, $5a, $0a, $3e, $0a, $00
+unk_0b4d:
+	db $04, $01, $7c, $53, $62, $19, $12, $42, $00, $00
+unk_0b57:
+	db $04, $01, $6f, $95, $a6, $58, $19, $06, $32, $00
+unk_0b61:
+	db $05, $01, $1b, $06, $28, $19, $12, $40, $00, $00
+unk_0b6b:
+	db $05, $01, $75, $57, $a0, $97, $19, $06, $0e, $07
+unk_0b75:
+	db $05, $01, $5a, $64, $89, $6f, $19, $06, $09, $27
+unk_0b7f:
+	db $05, $01, $18, $21, $29, $10, $02, $26, $03, $00
+unk_0b89:
+	db $05, $01, $0c, $36, $20, $25, $08, $1e, $0c, $00
+unk_0b93:
+	db $05, $01, $01, $09, $19, $12, $07, $00, $00, $00
+unk_0b9d:
+	db $05, $01, $1c, $15, $19, $28, $19, $56, $8e, $7e
+unk_0ba7:
+	db $05, $01, $5d, $55, $53, $14, $5c, $57, $70, $b4
+unk_0bb1:
+	db $05, $01, $01, $08, $1f, $19, $35, $13, $2e, $00
+unk_0bbb:
+	db $05, $01, $5d, $5a, $a0, $95, $00, $00, $00, $00
+unk_0bc5:
+	db $05, $01, $06, $25, $20, $3d, $22, $00, $00, $00
+unk_0bcf:
+	db $05, $01, $28, $2e, $33, $51, $72, $00, $00, $00
+unk_0bd9:
+	db $05, $01, $11, $02, $0b, $15, $6c, $58, $7b, $53
+unk_0be3:
+	db $01, $01, $51, $72, $39, $1f, $00, $00, $00, $00
+unk_0bed:
+	db $01, $01, $5b, $7e, $56, $58, $05, $16, $30, $28
+unk_0bf7:
+	db $01, $01, $10, $1f, $33, $41, $2e, $14, $03, $00
+unk_0c01:
+	db $05, $00, $8e, $64, $79, $69, $a6, $64, $00, $00
+unk_0c0b:
+	db $05, $00, $0a, $03, $28, $4d, $08, $90, $a0, $58
+unk_0c15:
+	db $05, $01, $78, $84, $a6, $90, $b3, $00, $00, $00
+unk_0c1f:
+	db $05, $01, $78, $84, $a6, $90, $b4, $00, $00, $00
+unk_0c29:
+	db $05, $01, $78, $84, $a6, $90, $b5, $00, $00, $00
+unk_0c33:
+	db $05, $01, $78, $84, $a6, $90, $b6, $00, $00, $00
+unk_0c3d:
+	db $05, $01, $78, $84, $a6, $90, $b7, $00, $00, $00
+
+unk_0c47:
+	dr $0c47, $0d11
+
+Func_0d11::
+	dr $0d11, $0d7a
 
 Func_0d7a::
 	dr $0d7a, $0d8a
 
 Func_0d8a::
-	dr $0d8a, $0e3f
+	dr $0d8a, $0dfd
+
+Func_0dfd::
+	ldh a, [rIF]
+	and $f7
+	ldh [rIF], a
+
+	ldh a, [rIE]
+	and $f7
+	ldh [rIE], a
+
+	xor a
+	ldh [hfff6], a
+	ldh [hfff5], a
+	ldh [hfff7], a
+	ldh [hfff8], a
+	ldh [hfff9], a
+	ldh [hfffb], a
+	ldh [hfffc], a
+	ldh [hfffd], a
+	ldh [hfffe], a
+	ldh [hfffa], a
+	ldh [hfff3], a
+	ldh [rSB], a
+	ldh [rSC], a
+	ld a, $fd
+	ldh [hfff4], a
+	ld a, $02
+	ldh [hfff2], a
+
+	ld hl, wc0a0
+	ld bc, $0040
+	call ClearBytes
+	ld hl, wc0e0
+	ld bc, $0040
+	call ClearBytes
+	ret
 
 Func_0e3f::
 	ld a, $fe
@@ -452,16 +790,49 @@ Func_1006::
 	dr $1006, $1065
 
 Func_1065::
-	dr $1065, $122f
+	dr $1065, $118e
+
+Func_118e::
+	dr $118e, $122f
 
 Func_122f::
 	dr $122f, $1347
 
 Func_1347::
-	dr $1347, $1628
+	dr $1347, $140d
+
+Func_140d::
+	dr $140d, $1422
+
+Func_1422::
+	di
+	ld [rROMB0], a
+	call Func_140d
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_1430::
+	dr $1430, $1531
+
+Func_1531::
+	dr $1531, $1628
 
 Func_1628::
-	dr $1628, $1642
+	ld b, $40
+	call Func_05cd
+	ld a, $03
+	ldh [rSVBK], a
+	ld bc, wd000
+	add hl, bc
+	ld bc, $0040
+	di
+	call Func_047c
+	ei
+	ldh a, [hRAMBank]
+	ldh [rSVBK], a
+	ret
 
 SECTION "Home 2", ROM0[$3680]
 

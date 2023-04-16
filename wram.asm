@@ -4100,42 +4100,43 @@ wcffb:: ds 1 ; cffb
 wcffc:: ds 1 ; cffc
 wcffd:: ds 1 ; cffd
 wcffe:: ds 1 ; cffe
-wcfff:: ds 1 ; cfff
+
+wStackTop:: ds 1 ; cfff
 
 
-SECTION "WRAM 1", WRAMX
+SECTION "WRAM 1", WRAMX, BANK[$01]
 
 wd000:: ds $1000 ; d000
 
-
-SECTION "WRAM 2", WRAMX
+SECTION "WRAM 2", WRAMX, BANK[$02]
 
 w2d000:: ds $1000 ; d000
 
 
-SECTION "WRAM 3", WRAMX
+SECTION "WRAM 3", WRAMX, BANK[$03]
 
 w3d000:: ds $1000 ; d000
 
 
-SECTION "WRAM 4", WRAMX
+SECTION "WRAM 4", WRAMX, BANK[$04]
 
 w4d000:: ds $1000 ; d000
 
 
-SECTION "WRAM 5", WRAMX
+SECTION "WRAM 5", WRAMX, BANK[$05]
 
 w5d000:: ds $1000 ; d000
 
 
-SECTION "WRAM 6", WRAMX
+SECTION "WRAM 6", WRAMX, BANK[$06]
 
 w6d000:: ds $1000 ; d000
 
 
-SECTION "WRAM 7", WRAMX
+SECTION "WRAM 7", WRAMX, BANK[$07]
 
-w7d000:: ds $1000 ; d000
+w7d000:: ds $926 ; d000
+w7d926:: ds $6da ; d926
 
 
 INCLUDE "hram.asm"

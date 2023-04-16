@@ -1,14 +1,15 @@
 SECTION "HRAM", HRAM
 
-hff80:: ds 10 ; ff80
-
 hJoypadDown:: ds 1 ; ff8a
 hJoypadPressed:: ds 1 ; ff8b
 hff8c:: ds 1 ; ff8c
+
 hff8d:: ds 1 ; ff8d
+
 hff8e:: ds 1 ; ff8e
 hRAMBank:: ds 1 ; ff8f
 hROMBank:: ds 1 ; ff90
+
 hff91:: ds 1 ; ff91
 hff92:: ds 1 ; ff92
 hff93:: ds 1 ; ff93

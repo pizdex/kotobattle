@@ -1,7 +1,8 @@
 ; rst vectors (called through the rst instruction)
 
 SECTION "rst0", ROM0[$0000]
-Jumptable::
+JumpTable::
+; pc = [(a * 2) + de]
 	add a
 	pop hl
 	ld e, a
@@ -69,7 +70,8 @@ SECTION "serial", ROM0[$0058]
 SECTION "joypad", ROM0[$0060]
 	reti
 
-Func_0061::
+PointerTable::
+; hl = [(a * 2) + de]
 	ld h, 0
 	ld l, a
 	add hl, hl
@@ -81,74 +83,74 @@ Func_0061::
 	ld l, e
 	ret
 
-Func_006c::
+FarPointerTable::
 	di
 	ld [rROMB0], a
 	ld a, b
-	call Func_0061
+	call PointerTable
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
 
-Func_007b::
+FarCopyBytes16::
 	di
 	ld [rROMB0], a
-	call Func_0089
+	call CopyBytes16
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
 
-Func_0089::
+CopyBytes16::
 	inc b
 	inc c
-	jr .asm_0090
+	jr .start
 
-.asm_008d
+.copy
 	ld a, [hli]
 	ld [de], a
 	inc de
-.asm_0090
+.start
 	dec c
-	jr nz, .asm_008d
+	jr nz, .copy
 	dec b
-	jr nz, .asm_008d
+	jr nz, .copy
 	ret
 
-Func_0097::
+FarCopyBytes8::
 	di
 	ld [rROMB0], a
-	call Func_00a5
+	call CopyBytes8
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
 
-Func_00a5::
+CopyBytes8::
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec c
-	jr nz, Func_00a5
+	jr nz, CopyBytes8
 	ret
 
-Func_00ac::
+ClearBytes::
 	xor a
 	inc b
 	inc c
-	jr .asm_00b2
+	jr .start
 
-.asm_00b1
+.clear
 	ld [hli], a
-.asm_00b2
+.start
 	dec c
-	jr nz, .asm_00b1
+	jr nz, .clear
 	dec b
-	jr nz, .asm_00b1
+	jr nz, .clear
 	ret
 
-Func_00b9::
+FillBytes::
 	ld a, d
 	inc b
 	inc c
