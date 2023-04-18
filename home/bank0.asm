@@ -64,7 +64,31 @@ CheckSoftReset:
 	jp Init
 
 Func_01be::
-	dr $01be, $01fa
+	ld hl, wc49d
+	ld bc, $5c1
+	call ClearBytes
+
+	ld a, $63
+	ld [wc4d3], a
+	ld a, $72
+	ld [wc4d4], a
+	ld a, $23
+	ld [wc4d5], a
+	ld a, $00
+	ld [wc4d6], a
+	ld a, $00
+	ld [wc4d7], a
+	ld a, $02
+	ld [wc4d8], a
+	ld a, $02
+	ld [wc4d9], a
+	ld a, $01
+	ld [wc4da], a
+	ld a, $01
+	ld [wc4db], a
+	ld a, $05
+	ld [wc4dc], a
+	ret
 
 VBlank::
 	push af
@@ -209,38 +233,212 @@ Func_02ac::
 
 unk_02af:
 	dw Func_02eb
-	dw $02f4
-	dw $02fd
-	dw $030c
-	dw $0315
-	dw $031e
-	dw $0327
-	dw $0330
-	dw $0339
-	dw $0342
-	dw $034b
-	dw $0354
-	dw $035d
-	dw $0366
-	dw $036f
-	dw $0378
-	dw $0381
-	dw $038a
-	dw $0393
-	dw $039c
-	dw $03a5
-	dw $03ae
-	dw $03b7
-	dw $03c0
-	dw $03c9
-	dw $03d2
-	dw $03db
-	dw $03e4
-	dw $03ed
+	dw Func_02f4
+	dw Func_02fd
+	dw Func_030c
+	dw Func_0315
+	dw Func_031e
+	dw Func_0327
+	dw Func_0330
+	dw Func_0339
+	dw Func_0342
+	dw Func_034b
+	dw Func_0354
+	dw Func_035d
+	dw Func_0366
+	dw Func_036f
+	dw Func_0378
+	dw Func_0381
+	dw Func_038a
+	dw Func_0393
+	dw Func_039c
+	dw Func_03a5
+	dw Func_03ae
+	dw Func_03b7
+	dw Func_03c0
+	dw Func_03c9
+	dw Func_03d2
+	dw Func_03db
+	dw Func_03e4
+	dw Func_03ed
 	dw Func_03f6
 
 Func_02eb::
-	dr $02eb, $03f6
+	ld a, $0f
+	call Bankswitch
+	call $62f5
+	ret
+
+Func_02f4::
+	ld a, $02
+	call Bankswitch
+	call $5128
+	ret
+
+Func_02fd::
+	ld a, $03
+	call Bankswitch
+	ld a, $06
+	ldh [hRAMBank], a
+	ldh [rSVBK], a
+	call $41b8
+	ret
+
+Func_030c::
+	ld a, $04
+	call Bankswitch
+	call $5b37
+	ret
+
+Func_0315::
+	ld a, $02
+	call Bankswitch
+	call $4000
+	ret
+
+Func_031e::
+	ld a, $06
+	call Bankswitch
+	call $430a
+	ret
+
+Func_0327::
+	ld a, $06
+	call Bankswitch
+	call $7220
+	ret
+
+Func_0330::
+	ld a, $02
+	call Bankswitch
+	call $5228
+	ret
+
+Func_0339::
+	ld a, $04
+	call Bankswitch
+	call $659c
+	ret
+
+Func_0342::
+	ld a, $0b
+	call Bankswitch
+	call $40db
+	ret
+
+Func_034b::
+	ld a, $05
+	call Bankswitch
+	call $4f23
+	ret
+
+Func_0354::
+	ld a, $04
+	call Bankswitch
+	call $514f
+	ret
+
+Func_035d::
+	ld a, $02
+	call Bankswitch
+	call $60db
+	ret
+
+Func_0366::
+	ld a, $06
+	call Bankswitch
+	call $4000
+	ret
+
+Func_036f::
+	ld a, $01
+	call Bankswitch
+	call $6046
+	ret
+
+Func_0378::
+	ld a, $04
+	call Bankswitch
+	call $4000
+	ret
+
+Func_0381::
+	ld a, $05
+	call Bankswitch
+	call $4000
+	ret
+
+Func_038a::
+	ld a, $0f
+	call Bankswitch
+	call $5b6f
+	ret
+
+Func_0393::
+	ld a, $08
+	call Bankswitch
+	call $4000
+	ret
+
+Func_039c::
+	ld a, $05
+	call Bankswitch
+	call $6959
+	ret
+
+Func_03a5::
+	ld a, $01
+	call Bankswitch
+	call $4000
+	ret
+
+Func_03ae::
+	ld a, $0f
+	call Bankswitch
+	call $5229
+	ret
+
+Func_03b7::
+	ld a, $2b
+	call Bankswitch
+	call $4082
+	ret
+
+Func_03c0::
+	ld a, $0f
+	call Bankswitch
+	call $4cbd
+	ret
+
+Func_03c9::
+	ld a, $0f
+	call Bankswitch
+	call $4000
+	ret
+
+Func_03d2::
+	ld a, $0d
+	call Bankswitch
+	call $401d
+	ret
+
+Func_03db::
+	ld a, $0e
+	call Bankswitch
+	call $4000
+	ret
+
+Func_03e4::
+	ld a, $77
+	call Bankswitch
+	call $461c
+	ret
+
+Func_03ed::
+	ld a, $0e
+	call Bankswitch
+	call $574a
+	ret
 
 Func_03f6::
 	ld a, BANK(Func_7e_4000)
@@ -273,11 +471,29 @@ Func_046e::
 	ret
 
 Func_047c::
-	dr $047c, $0490
+; Copy bc bytes from hl to de, VRAM safe
+	inc b
+	inc c
+	jr .copy
+
+.wait
+	ldh a, [rSTAT]
+	and STATF_BUSY
+	jr nz, .wait
+
+	ld a, [hli]
+	ld [de], a
+	inc de
+.copy
+	dec c
+	jr nz, .wait
+	dec b
+	jr nz, .wait
+	ret
 
 Func_0490::
 	push bc
-	ld h, $00
+	ld h, 0
 	ld l, b
 	ld b, h
 	add hl, hl
@@ -300,13 +516,160 @@ Func_049e:
 	ret
 
 Func_04ac::
-	dr $04ac, $0513
+	ld a, $20
+	sub b
+	ldh [hff92], a
+
+.asm_04b1:
+	push bc
+.asm_04b2
+	ld a, [de]
+	ld [hli], a
+	inc de
+	dec b
+	jr nz, .asm_04b2
+	ldh a, [hff92]
+	ld c, a
+	add hl, bc
+	pop bc
+	dec c
+	jr nz, .asm_04b1
+	ret
+
+Func_04c1::
+	sla a
+	sla a
+	or b
+	sla a
+	set 7, a
+	ld [de], a
+	ret
+
+Func_04cc::
+	ld de, rOCPS
+	call Func_04c1
+	ld de, rOCPD
+	jr Func_04d7.wait
+
+Func_04d7::
+	ld de, rBCPS
+	call Func_04c1
+	ld de, rBCPD
+
+.wait
+	ldh a, [rSTAT]
+	and STATF_BUSY
+	jr nz, .wait
+
+	ld a, [hli]
+	ld [de], a
+	ld a, [hli]
+	ld [de], a
+	ret
+
+Func_04eb::
+	ld b, 0
+	ld de, rOCPS
+	call Func_04c1
+	ld de, rOCPD
+	jr Func_04f8.asm_0503
+
+Func_04f8::
+	ld b, 0
+	ld de, rBCPS
+	call Func_04c1
+	ld de, rBCPD
+
+.asm_0503:
+	ld c, 4
+.wait
+	ldh a, [rSTAT]
+	and STATF_BUSY
+	jr nz, .wait
+
+	ld a, [hli]
+	ld [de], a
+	ld a, [hli]
+	ld [de], a
+	dec c
+	ret z
+	jr .wait
 
 Func_0513::
-	dr $0513, $0520
+	ld b, 0
+	ld de, rOCPS
+	call Func_04c1
+	ld de, rOCPD
+	jr Func_0520.asm_052b
 
 Func_0520::
-	dr $0520, $057f
+	ld b, 0
+	ld de, rBCPS
+	call Func_04c1
+	ld de, rBCPD
+
+.asm_052b:
+	ld c, 32
+.wait
+	ldh a, [rSTAT]
+	and STATF_BUSY
+	jr nz, .wait
+
+	ld a, [hli]
+	ld [de], a
+	ld a, [hli]
+	ld [de], a
+	dec c
+	ret z
+	jr .wait
+
+Func_053b::
+	ld d, a
+	ld a, c
+	di
+	ld [rROMB0], a
+	ld a, d
+	call Func_04cc
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_054c::
+	ld d, a
+	ld a, c
+	di
+	ld [rROMB0], a
+	ld a, d
+	call Func_04d7
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_055d::
+	ld c, a
+	ld a, b
+	di
+	ld [rROMB0], a
+	ld a, c
+	call Func_04eb
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_056e::
+	ld c, a
+	ld a, b
+	di
+	ld [rROMB0], a
+	ld a, c
+	call Func_04f8
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
 
 Func_057f::
 	di
@@ -327,16 +690,183 @@ Func_058d::
 	ret
 
 Func_059b:
-	dr $059b, $05cd
+	ldh a, [hff91]
+	ldh [hff94], a
+	and $0f
+	ldh [hff93], a
+	ret
+
+Func_05a4:
+	push bc
+	push hl
+	ld hl, .unk_05bd
+	ldh a, [hff93]
+	inc a
+	and $0f
+	ldh [hff93], a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, [hl]
+	ld hl, hff94
+	add [hl]
+	ld [hl], a
+	pop hl
+	pop bc
+	ret
+
+.unk_05bd
+	db $f0, $18, $13, $de, $99, $61, $ea, $cc, $42, $8a, $f1, $02, $4e, $88, $9c, $20
 
 Func_05cd::
-	dr $05cd, $05f4
+	ld l, 0
+	ld h, a
+	ld c, b
+	ld b, l
+	ld a, 8
+.asm_05d4
+	add hl, hl
+	jr nc, .asm_05d8
+	add hl, bc
+.asm_05d8
+	dec a
+	jr nz, .asm_05d4
+	ret
+
+Func_05dc::
+	ld bc, $0000
+.asm_05df
+	ld a, l
+	sub e
+	ld l, a
+	ld a, h
+	sbc d
+	ld h, a
+	inc bc
+	jr nc, .asm_05df
+	add hl, de
+	dec bc
+	ret
+
+Func_05eb::
+	ld c, 0
+.asm_05ed
+	sub b
+	inc c
+	jr nc, .asm_05ed
+	add b
+	dec c
+	ret
 
 Func_05f4::
-	dr $05f4, $061f
+	ld a, 5
+.asm_05f6
+	push af
+	push de
+	ld b, h
+	ld c, l
+	ld de, .unk_0613
+	add a
+	ld h, 0
+	ld l, a
+	add hl, de
+	ld a, [hli]
+	ld e, a
+	ld d, [hl]
+	ld h, b
+	ld l, c
+	call Func_05dc
+	pop de
+	ld a, c
+	ld [de], a
+	inc de
+	pop af
+	dec a
+	jr nz, .asm_05f6
+	ret
+
+.unk_0613
+	db $00, $00, $01, $00, $0a, $00, $64, $00, $e8, $03, $10, $27
 
 Func_061f::
-	dr $061f, $066f
+	ld hl, .unk_0635
+	ld b, 3
+	push bc
+.asm_0625
+	ld b, [hl]
+	call Func_05eb
+	ld b, a
+	ld a, c
+	ld [de], a
+	ld a, b
+	pop bc
+	dec b
+	ret z
+	inc hl
+	inc de
+	push bc
+	jr .asm_0625
+
+.unk_0635
+	db $64, $0a, $01
+
+Func_0638::
+.asm_0638
+	ld a, [hli]
+	dec b
+	jr z, .asm_063f
+	and a
+	jr z, .asm_0638
+
+.asm_063f
+	inc b
+	dec hl
+	ld c, $b0
+.asm_0643
+	ld a, c
+	add [hl]
+	ld [hli], a
+	dec b
+	jr nz, .asm_0643
+	ret
+
+Func_064a:
+	ld c, $b0
+.asm_064c
+	ld a, c
+	add [hl]
+	ld [hli], a
+	dec b
+	jr nz, .asm_064c
+	ret
+
+Func_0653:
+	ld c, a
+	ld a, b
+	and a
+	jr z, .asm_066c
+	push de
+	ld d, $08
+	xor a
+.asm_065c
+	rl c
+	rla
+	sub b
+	ccf
+	jr c, .asm_0665
+	add b
+	ccf
+.asm_0665
+	dec d
+	jr nz, .asm_065c
+	rl c
+	pop de
+	ret
+
+.asm_066c
+	xor a
+	ld c, a
+	ret
 
 Func_066f::
 	add hl, hl
@@ -357,7 +887,7 @@ Func_0677::
 	ei
 	ret
 
-Func_0685:
+Func_0685::
 	di
 	ld [rROMB0], a
 	ld b, [hl]
@@ -366,14 +896,296 @@ Func_0685:
 	ei
 	ret
 
-Func_0691:
-	dr $0691, $06f7
+Func_0691::
+	push af
+	push de
+	ld de, $03e7
+	call Func_00d2
+	jr z, .asm_06a3
+	call Func_00cd
+	jr c, .asm_06a3
+	ld hl, $03e7
+.asm_06a3
+	pop de
+	pop af
+	ret
+
+Func_06a6::
+	ld hl, $0085
+	call Func_1046
+	ret nz
+	ld a, $01
+	ld b, $3c
+.asm_06b1
+	call Func_077d
+	ret z
+	inc a
+	dec b
+	jr nz, .asm_06b1
+	ld hl, $0085
+	call Func_1006
+	ret
+
+Func_06c0::
+	call Func_06e4
+	ret nc
+
+	push hl
+	ld a, $01
+	ld bc, wc251
+.asm_06ca
+	call Func_0719
+	push af
+	ld a, [bc]
+	inc d
+	cp d
+	jr z, .asm_06e0
+	jr nc, .asm_06e0
+
+	pop af
+	cp $3c
+	jr z, .asm_06de
+
+	inc bc
+	inc a
+	jr .asm_06ca
+
+.asm_06de
+	pop hl
+	ret
+
+.asm_06e0
+	pop af
+	pop hl
+	ld [hl], a
+	ret
+
+Func_06e4:
+	ld b, $14
+	ld hl, wc295
+.asm_06e9
+	ld a, [hli]
+	cp $38
+	jr z, .asm_06f4
+	inc hl
+	dec b
+	jr nz, .asm_06e9
+	xor a
+	ret
+
+.asm_06f4
+	dec hl
+	scf
+	ret
 
 Func_06f7::
-	dr $06f7, $0719
+	ld a, [wcbdc]
+	cp $10
+	ret z
+	inc a
+	ld [wcbdc], a
+	dec a
+	ld hl, wcbdd
+	add a
+	add a
+	add a
+	add l
+	ld l, a
+	ld a, 0
+	adc h
+	ld h, a
+	ld b, $08
+	ld c, $a0
+.asm_0712
+	ld a, [c]
+	ld [hli], a
+	inc c
+	dec b
+	jr nz, .asm_0712
+	ret
 
 Func_0719::
-	dr $0719, $0800
+	ld hl, wc293
+	ld e, $15
+	ld d, $00
+.asm_0720:
+	inc hl
+	inc hl
+	dec e
+	ret z
+	cp [hl]
+	jr nz, .asm_0720
+	inc d
+	jr .asm_0720
+
+Func_072a::
+	push hl
+	ld a, l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	ld de, wc46d
+	add hl, de
+	and $07
+	ld d, $80
+.asm_0740
+	and a
+	jr z, .asm_0748
+	srl d
+	dec a
+	jr .asm_0740
+
+.asm_0748
+	ld a, d
+	and [hl]
+	pop hl
+	ret
+
+Func_074c::
+	push hl
+	push de
+	ld a, l
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	ld de, wc415
+	add hl, de
+	and $07
+	ld d, $80
+.asm_0763
+	and a
+	jr z, .asm_076b
+	srl d
+	dec a
+	jr .asm_0763
+
+.asm_076b
+	ld a, d
+	and [hl]
+	pop de
+	pop hl
+	ret
+
+Func_0770:
+	ld b, $14
+	ld hl, wc295
+.asm_0775
+	ld a, [hli]
+	inc hl
+	ld [de], a
+	inc de
+	dec b
+	jr nz, .asm_0775
+	ret
+
+Func_077d::
+	ld e, a
+	srl e
+	srl e
+	srl e
+	ld d, 0
+	ld hl, wc28d
+	add hl, de
+	ld e, a
+	and $07
+	ld d, $80
+.asm_078f
+	and a
+	jr z, .asm_0797
+	srl d
+	dec a
+	jr .asm_078f
+
+.asm_0797
+	ld a, d
+	and [hl]
+	ld a, e
+	ret
+
+Func_079b::
+	push de
+	ld a, e
+	srl d
+	rr e
+	srl d
+	rr e
+	srl d
+	rr e
+	ld hl, wc46d
+	add hl, de
+	and $07
+	ld d, $80
+.asm_07b1
+	and a
+	jr z, .asm_07b9
+	srl d
+	dec a
+	jr .asm_07b1
+
+.asm_07b9
+	ld a, d
+	or [hl]
+	ld [hl], a
+	pop de
+	ret
+
+Func_07be::
+	push de
+	ld a, e
+	srl d
+	rr e
+	srl d
+	rr e
+	srl d
+	rr e
+	ld hl, wc415
+	add hl, de
+	and $07
+	ld d, $80
+.asm_07d4
+	and a
+	jr z, .asm_07dc
+	srl d
+	dec a
+	jr .asm_07d4
+
+.asm_07dc
+	ld a, d
+	or [hl]
+	ld [hl], a
+	pop de
+	ret
+
+Func_07e1::
+	ld e, a
+	srl e
+	srl e
+	srl e
+	ld d, 0
+	ld hl, wc28d
+	add hl, de
+	ld e, a
+	and $07
+	ld d, $80
+.asm_07f3
+	and a
+	jr z, .asm_07fb
+	srl d
+	dec a
+	jr .asm_07f3
+
+.asm_07fb
+	ld a, d
+	or [hl]
+	ld [hl], a
+	ld a, e
+	ret
 
 Func_0800::
 	dr $0800, $0862
@@ -787,7 +1599,10 @@ Func_0f79::
 	ret
 
 Func_1006::
-	dr $1006, $1065
+	dr $1006, $1046
+
+Func_1046::
+	dr $1046, $1065
 
 Func_1065::
 	dr $1065, $118e
