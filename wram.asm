@@ -4106,7 +4106,8 @@ wStackTop:: ds 1 ; cfff
 
 SECTION "WRAM 1", WRAMX, BANK[$01]
 
-wd000:: ds $1000 ; d000
+wd000:: ds $85d ; d000
+wd85d:: ds $7a3 ; d85d
 
 SECTION "WRAM 2", WRAMX, BANK[$02]
 
