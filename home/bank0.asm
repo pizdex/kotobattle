@@ -1478,7 +1478,7 @@ Func_0f34::
 	dr $0f34, $0f79
 
 Func_0f79::
-; Probably something to do with 2bpp decoding
+; 2bpp decoding?
 	push hl
 	di
 	ldh [hROMBank], a
@@ -1879,10 +1879,188 @@ Func_3704::
 	ret
 
 Func_3733::
-	dr $3733, $377a
+	ld hl, wce9c
+	add hl, bc
+	bit 0, [hl]
+	jr nz, .asm_3755
+	bit 6, [hl]
+	jr nz, .asm_3755
+
+	ld hl, wced4
+	add hl, bc
+	ld a, [hl]
+	sub e
+	ld [hl], a
+	jr z, .asm_374c
+	jr c, .asm_374c
+	jr .asm_3755
+
+.asm_374c
+	call Func_3b62
+	ld hl, wce9c
+	add hl, bc
+	set 0, [hl]
+
+.asm_3755:
+	ld hl, wcecc
+	add hl, bc
+	ld a, [hl]
+	sub e
+	ld [hl], a
+	jr z, Func_3769
+	ret nc
+
+	cpl
+	inc a
+	ld e, a
+	push de
+	call Func_3769
+	pop de
+	jr Func_3733
+
+Func_3769:
+	ld hl, wceb4
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
+	inc hl
+	ld a, [hl]
+	ld [wcf7c], a
+	ld [rROMB0], a
 
 Func_377a::
-	dr $377a, $3827
+; Character decoding?
+	ld a, [de]
+	inc de
+	cp $d0
+	jr c, .asm_3787
+	cp $e0
+	jr c, .asm_37fb
+	jp Func_3833
+
+.asm_3787:
+	cp $7f
+	jr z, .asm_37e0
+
+	push af
+	push de
+	and $7f
+	call Func_3949
+	ld hl, wce9c
+	add hl, bc
+	bit 6, [hl]
+	res 6, [hl]
+	jr nz, .asm_37a8
+	set 7, d
+	bit 4, [hl]
+	call nz, Func_39c6
+	bit 3, [hl]
+	call nz, Func_3a25
+
+.asm_37a8:
+	ld hl, wcedc
+	add hl, bc
+	add hl, bc
+	ld a, e
+	ld [hli], a
+	ld a, d
+	ld [hl], a
+	call Func_3aaf
+	pop de
+	pop af
+	cp $80
+	jr c, .asm_37c0
+	ld hl, wce9c
+	add hl, bc
+	set 6, [hl]
+
+.asm_37c0:
+	ld a, [de]
+	inc de
+	ld hl, wcecc
+	add hl, bc
+	ld [hl], a
+	push de
+	ld hl, wcf24
+	add hl, bc
+	ld e, [hl]
+	call Func_3933
+	ld hl, wced4
+	add hl, bc
+
+.asm_37d4:
+	ld [hl], a
+	pop de
+	ld hl, wce9c
+	add hl, bc
+	ld a, [hl]
+	and $f8
+	ld [hl], a
+	jr .asm_37f1
+
+.asm_37e0:
+	ld a, [de]
+	inc de
+	ld hl, wcecc
+	add hl, bc
+	ld [hl], a
+	ld hl, wce9c
+	add hl, bc
+	ld a, [hl]
+	and $f8
+	set 0, a
+	ld [hl], a
+
+.asm_37f1:
+	ld hl, wceb4
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld [hl], e
+	inc hl
+	ld [hl], d
+	ret
+
+.asm_37fb:
+	push af
+	and $03
+	ld hl, wcf51
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	add l
+	ld l, a
+	ld a, h
+	adc 0
+	ld h, a
+	pop af
+	cp $d4
+	jr c, .asm_381a
+
+	ld a, [de]
+	inc de
+	inc [hl]
+	cp [hl]
+	jr nz, .asm_3822
+	ld [hl], 0
+	jr Func_3827
+
+.asm_381a:
+	inc [hl]
+	ld a, [de]
+	inc de
+	cp [hl]
+	jr nz, Func_3827
+	ld [hl], 0
+
+.asm_3822
+	inc de
+	inc de
+	jp Func_377a
 
 Func_3827::
 	ld a, [de]
@@ -1975,28 +2153,114 @@ Func_3898::
 	jr Func_3887
 
 Func_389d::
-	dr $389d, $38a6
+	ld hl, wcf4c
+	add hl, bc
+	ld [hl], $08
+	jp Func_377a
 
 Func_38a6::
-	dr $38a6, $38b9
+	ld a, [de]
+	inc de
+	push de
+	ld e, a
+	swap e
+	ld hl, wcf14
+	add hl, bc
+	ld a, [hl]
+	and $0f
+	or e
+	ld [hl], a
+	pop de
+	jp Func_377a
 
 Func_38b9::
-	dr $38b9, $38c3
+	ld a, [de]
+	inc de
+	ld hl, wcf1c
+	add hl, bc
+	ld [hl], a
+	jp Func_377a
 
 Func_38c3::
-	dr $38c3, $38da
+	ld a, [de]
+	inc de
+	ld hl, wce9c
+	add hl, bc
+	res 3, [hl]
+	push de
+	ld e, a
+	ld hl, wcf14
+	add hl, bc
+	ld a, [hl]
+	and $f0
+	or e
+	ld [hl], a
+	pop de
+	jp Func_377a
 
 Func_38da::
-	dr $38da, $38df
+	ld hl, wcf24
+	jr Func_3887
 
 Func_38df::
-	dr $38df, $38e4
+	ld hl, wceec
+	jr Func_3887
 
 Func_38e4::
-	dr $38e4, $38f6
+	ld a, [de]
+	inc de
+	ld hl, wce9c
+	add hl, bc
+	set 3, [hl]
+	ld hl, wcf2c
+	add hl, bc
+	ld [hl], a
+	ld hl, wcf34
+	jr Func_3887
 
 Func_38f6::
-	dr $38f6, $392c
+	ld a, [de]
+	inc de
+	push de
+	ld e, a
+	ld hl, .unk_3924
+	add hl, bc
+	ld d, [hl]
+	ld hl, wcf79
+	bit 2, c
+	jr z, .asm_3907
+	inc hl
+
+.asm_3907
+	ld a, d
+	swap a
+	or d
+	cpl
+	and [hl]
+	ld [hl], a
+	ld a, $0f
+	and e
+	jr z, .asm_3916
+	ld a, [hl]
+	or d
+	ld [hl], a
+
+.asm_3916
+	ld a, $f0
+	and e
+	jr z, .asm_3920
+	ld a, [hl]
+	swap d
+	or d
+	ld [hl], a
+
+.asm_3920
+	pop de
+	jp Func_377a
+
+.unk_3924
+	db $01, $02, $04, $08
+	db $01, $02, $04, $08
 
 Func_392c::
 	ld hl, wce9c
@@ -2168,10 +2432,10 @@ Func_39d6:
 Func_3a25::
 	ld hl, wcf3c
 	add hl, bc
-	ld [hl], $01
+	ld [hl], 1
 	ld hl, wcf44
 	add hl, bc
-	ld [hl], $00
+	ld [hl], 0
 	ret
 
 Func_3a32::
@@ -2538,25 +2802,264 @@ Func_3c08::
 	dw Func_3da4
 
 Func_3c24::
-	dr $3c24, $3cbf
+	ld a, b
+	and $0f
+	ld [wce96], a
+	ld a, c
+	ld [wce97], a
+	ld hl, $4135
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld a, $78
+	ld [rROMB0], a
+	ld a, [hli]
+	ld [wce93], a
+	ld a, [hli]
+	ld [wce94], a
+	ld a, [hl]
+	ld [wcf7c], a
+	ld [rROMB0], a
+	ld a, [wce93]
+	ld l, a
+	ld a, [wce94]
+	ld h, a
+	ld a, [hli]
+	ld e, a
+	push hl
+	ld bc, $0000
+	ld a, [wce96]
+	ld d, a
+.asm_3c5c:
+	rrc e
+	jr nc, .asm_3c72
+	ld hl, wce9c
+	add hl, bc
+	bit 7, [hl]
+	jr z, .asm_3c70
+	ld hl, wcf75
+	add hl, bc
+	ld a, [hl]
+	cp d
+	jr c, .asm_3c72
+
+.asm_3c70
+	set 3, e
+.asm_3c72
+	inc c
+	ld a, 4
+	cp c
+	jr nz, .asm_3c5c
+
+	ld a, e
+	ld [wce95], a
+	ld a, [wce95]
+	and $0f
+	ld e, a
+	swap a
+	or e
+	ld [wcf79], a
+	ld hl, wcf71
+	ld a, [wce95]
+	ld d, a
+	ld bc, $0000
+.asm_3c92:
+	rrc d
+	jr nc, .asm_3ca6
+
+	ld hl, wcf75
+	add hl, bc
+	ld a, [wce96]
+	ld [hl], a
+	ld hl, wcf71
+	add hl, bc
+	ld a, [wce97]
+	ld [hl], a
+
+.asm_3ca6:
+	inc c
+	ld a, 4
+	cp c
+	jr nz, .asm_3c92
+
+	pop hl
+	ld a, [wce95]
+	ld b, a
+	swap b
+	ld a, [wce93]
+	ld e, a
+	ld a, [wce94]
+	ld d, a
+	ld c, 0
+	jr Func_3cf6
 
 Func_3cbf::
-	dr $3cbf, $3d1b
+	push bc
+	call Func_3d77
+	pop bc
+	ld hl, wcea0
+	xor a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld hl, wce9b
+	res 0, [hl]
+	ld hl, $40c0
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld a, $78
+	ld [rROMB0], a
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	ld a, [hl]
+	ld [rROMB0], a
+	ld [wcf7c], a
+	ld h, d
+	ld l, e
+	ld a, [hli]
+	ld b, a
+	swap a
+	or b
+	ld b, a
+	ld [wcf7a], a
+	ld c, 4
+
+Func_3cf6::
+	rrc b
+	jr nc, .asm_3d14
+	bit 3, b
+	jr z, .asm_3d12
+	push bc
+	push de
+	push hl
+	ld a, [hli]
+	add e
+	ld e, a
+	ld a, [hli]
+	adc d
+	ld d, a
+	ld b, $00
+	ld a, [wcf7c]
+	call Func_3d1b
+	pop hl
+	pop de
+	pop bc
+
+.asm_3d12
+	inc hl
+	inc hl
+.asm_3d14
+	inc c
+	ld a, c
+	and $03
+	jr nz, Func_3cf6
+	ret
 
 Func_3d1b::
-	dr $3d1b, $3d77
+	ld hl, wceb4
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld [hl], e
+	inc hl
+	ld [hl], d
+	inc hl
+	ld [hl], a
+	ld de, $0008
+	ld hl, wcea4
+	add hl, bc
+	ld [hl], $29
+	add hl, de
+	ld [hl], $00
+	ld hl, wcecc
+	add hl, bc
+	ld [hl], $01
+	ld hl, wcf24
+	add hl, bc
+	ld [hl], $10
+	xor a
+	ld hl, wcf51
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hl], a
+	ld hl, wceec
+	add hl, bc
+	ld [hl], a
+	ld hl, wcf2c
+	add hl, bc
+	ld [hl], a
+	ld hl, wce9c
+	add hl, bc
+	ld [hl], $80
+	ld hl, wcef4
+	add hl, bc
+	ld [hl], $05
+	add hl, de
+	ld [hl], $01
+	add hl, de
+	ld [hl], $1e
+	add hl, de
+	add hl, de
+	ld [hl], $f0
+	add hl, de
+	ld [hl], b
+	ld a, c
+	and $03
+	ret nz
+	ld hl, wcf4c
+	add hl, bc
+	ld [hl], $08
+	ret
 
 Func_3d77::
-	dr $3d77, $3d8f
+	ld bc, $0004
+	call Func_3b62
+	inc c
+	call Func_3b62
+	inc c
+	call Func_3b62
+	inc c
+	call Func_3b62
+	ld hl, wce9b
+	set 0, [hl]
+	ret
 
 Func_3d8f::
-	dr $3d8f, $3d95
+	ld hl, wce9b
+	res 0, [hl]
+	ret
 
 Func_3d95::
-	dr $3d95, $3da4
+	ld hl, wce9b
+	set 1, [hl]
+	res 2, [hl]
+
+Func_3d9c::
+	ld a, c
+	ld [wcf4e], a
+	ld [wcf4f], a
+	ret
 
 Func_3da4::
-	dr $3da4, $3db5
+	ld hl, wce9b
+	set 1, [hl]
+	set 2, [hl]
+	res 0, [hl]
+	xor a
+	ld [wcf4d], a
+	ldh [rNR50], a
+	jr Func_3d9c
 
 Func_3db5::
 	ld a, c
