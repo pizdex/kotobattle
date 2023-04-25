@@ -1167,7 +1167,7 @@ Func_07e1::
 	srl e
 	srl e
 	srl e
-	ld d, 0
+	ld d, $00
 	ld hl, wc28d
 	add hl, de
 	ld e, a
@@ -1188,10 +1188,239 @@ Func_07e1::
 	ret
 
 Func_0800::
-	dr $0800, $0862
+	call Func_07e1
+	ld de, wc250
+	ld h, 0
+	ld l, a
+	add hl, de
+	ld a, [hl]
+	cp $63
+	jr z, .asm_0819
+	add b
+	cp $63
+	jr c, .asm_0816
+	ld a, $63
+
+.asm_0816
+	ld [hl], a
+	scf
+	ret
+
+.asm_0819
+	xor a
+	ret
+
+Func_081b::
+	ld de, wc250
+	ld h, 0
+	ld l, a
+	add hl, de
+	ld a, [hl]
+	and a
+	jr z, .asm_082d
+	sub b
+	jr nc, .asm_082a
+	xor a
+
+.asm_082a
+	ld [hl], a
+	scf
+	ret
+
+.asm_082d
+	xor a
+	ret
+
+Func_082f::
+	ld b, d
+	ld c, e
+.asm_0831
+	ld a, [hli]
+	cp $ff
+	ret z
+	cp $fe
+	jr z, .asm_083d
+	ld [de], a
+	inc de
+	jr .asm_0831
+
+.asm_083d
+	push hl
+	ld hl, $20
+	add hl, bc
+	ld d, h
+	ld e, l
+	ld b, h
+	ld c, l
+	pop hl
+	jr .asm_0831
+
+Func_0849::
+	di
+	xor a
+	ld h, a
+
+Func_084c:
+	ld l, a
+	ld de, wc1e3
+	ld bc, $87f
+.asm_0853:
+	ld a, [de]
+	add l
+	ld l, a
+	ld a, 0
+	adc h
+	ld h, a
+	inc de
+	dec bc
+	ld a, c
+	or b
+	jr nz, .asm_0853
+	ei
+	ret
 
 Func_0862::
-	dr $0862, $091a
+	ldh a, [hff98]
+	cp $03
+	ret nc
+
+	ld a, $53
+	ld [wca5e], a
+	ld a, $41
+	ld [wca5f], a
+	ld a, $56
+	ld [wca60], a
+	ld a, $45
+	ld [wca61], a
+
+	xor a ; SRAM bank 0
+	ld [rRAMB], a
+	ld a, CART_SRAM_ENABLE
+	ld [rRAMG], a
+
+	di
+	ldh a, [hff98]
+	and a
+	jr z, .asm_0894
+	cp 1
+	jr z, .asm_089c
+	cp 2
+	jr z, .asm_08a4
+	jr .asm_08b8
+
+.asm_0894
+	ld hl, wc1e3
+	ld de, $a000
+	jr .asm_08aa
+
+.asm_089c
+	ld hl, wc5e3
+	ld de, $a400
+	jr .asm_08aa
+
+.asm_08a4
+	ld hl, wc9e3
+	ld de, $a800
+
+.asm_08aa:
+	inc a
+	ldh [hff98], a
+	ld bc, $400
+.copy
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec bc
+	ld a, b
+	or c
+	jr nz, .copy
+
+.asm_08b8
+	ld a, CART_SRAM_DISABLE
+	ld [rRAMG], a
+	ei
+	scf
+	ret
+
+Func_08c0::
+	xor a ; SRAM bank 0
+	ld [rRAMB], a
+	ld a, CART_SRAM_ENABLE
+	ld [rRAMG], a
+
+	ld de, wc1e3
+	ld hl, $a000
+	ld bc, $881
+.copy
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec bc
+	ld a, b
+	or c
+	jr nz, .copy
+
+	ld a, CART_SRAM_DISABLE
+	ld [rRAMG], a
+	ret
+
+Func_08e0::
+	and a
+	jr z, .asm_0917
+	ld b, a
+	ld c, $28
+	ld hl, wc200
+.asm_08e9
+	ld a, [hli]
+	cp b
+	jr z, .asm_08f6
+	and a
+	jr z, .asm_090c
+
+	inc hl
+	dec c
+	jr nz, .asm_08e9
+	xor a
+	ret
+
+.asm_08f6
+	ld a, $63
+	cp [hl]
+	jr z, .asm_0913
+	jr c, .asm_0913
+
+	ld a, d
+	add [hl]
+	cp $63
+	jr z, .asm_0907
+	jr c, .asm_0907
+	ld a, $63
+
+.asm_0907
+	ld [hl], a
+	scf
+	ld a, $01
+	ret
+
+.asm_090c
+	ld a, b
+	dec hl
+	ld [hli], a
+	ld [hl], d
+	xor a
+	scf
+	ret
+
+.asm_0913
+	ld [hl], a
+	xor a
+	inc a
+	ret
+
+.asm_0917
+	xor a
+	dec a
+	ret
 
 Func_091a::
 	ld a, [hli]
@@ -1257,10 +1486,114 @@ Func_091a::
 	ret
 
 Func_095f::
-	dr $095f, $09cb
+	add a
+	add a
+	ld h, 0
+	ld l, a
+	ld bc, $40fa
+	add hl, bc
+	ld c, $04
+	di
+	ld a, $7f
+	ld [rROMB0], a
+.asm_0970
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec c
+	jr nz, .asm_0970
+
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_097d::
+	push hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	ld bc, $6689
+	add hl, bc
+	ld c, $08
+	ld a, $4f
+	call FarCopyBytes8
+	pop hl
+	ret
+
+Func_098e::
+	push hl
+	push de
+	ld de, $5a43
+	ld a, $49
+	call Func_0677
+	pop de
+	ld b, $ff
+	ld a, $49
+	call Func_00df
+	pop hl
+	ret
+
+Func_09a2::
+	push hl
+	ld b, h
+	ld c, l
+	add hl, hl
+	add hl, hl
+	add hl, bc
+	ld bc, $4946
+	add hl, bc
+	ld c, $04
+	ld a, $50
+	call FarCopyBytes8
+	pop hl
+	ret
+
+Func_09b5::
+	push hl
+	ld d, h
+	ld e, l
+	add hl, hl
+	add hl, hl
+	add hl, de
+	ld de, $4946
+	add hl, de
+	ld de, wccc3
+	ld c, $05
+	ld a, $50
+	call FarCopyBytes8
+	pop hl
+	ret
 
 Func_09cb::
-	dr $09cb, $09fb
+	push hl
+	ld de, $4660
+	add hl, de
+	ld de, wcc5f
+	ld c, $01
+	ld a, $50
+	call FarCopyBytes8
+	ld a, [wcc5f]
+	pop hl
+	ret
+
+Func_09df::
+	ld de, $47d3
+	add hl, de
+	ld a, $50
+	ld [rROMB0], a
+	ld b, [hl]
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ld a, b
+	ret
+
+Func_09f0::
+	ld de, $4000
+	ld a, $4f
+	call Func_0677
+	ld a, $4f
+	ret
 
 Func_09fb::
 	ld de, $7acf
@@ -1293,146 +1626,344 @@ REPT 32
 ENDR
 
 unk_0a65:
-	dw unk_0ab7
-	dw unk_0ab7
-	dw unk_0ac1
-	dw unk_0acb
-	dw unk_0ad5
-	dw unk_0adf
-	dw unk_0ae9
-	dw unk_0af3
-	dw unk_0afd
-	dw unk_0b07
-	dw unk_0b11
-	dw unk_0b1b
-	dw unk_0b25
-	dw unk_0b2f
-	dw unk_0b39
-	dw unk_0b43
-	dw unk_0b4d
-	dw unk_0b57
-	dw unk_0b61
-	dw unk_0b6b
-	dw unk_0b75
-	dw unk_0b7f
-	dw unk_0b89
-	dw unk_0b93
-	dw unk_0b9d
-	dw unk_0ba7
-	dw unk_0bb1
-	dw unk_0bbb
-	dw unk_0bc5
-	dw unk_0bcf
-	dw unk_0bd9
-	dw unk_0be3
-	dw unk_0bed
-	dw unk_0bf7
-	dw unk_0c01
-	dw unk_0c0b
-	dw unk_0c15
-	dw unk_0c1f
-	dw unk_0c29
-	dw unk_0c33
-	dw unk_0c3d
+	dw .unk_0ab7
+	dw .unk_0ab7
+	dw .unk_0ac1
+	dw .unk_0acb
+	dw .unk_0ad5
+	dw .unk_0adf
+	dw .unk_0ae9
+	dw .unk_0af3
+	dw .unk_0afd
+	dw .unk_0b07
+	dw .unk_0b11
+	dw .unk_0b1b
+	dw .unk_0b25
+	dw .unk_0b2f
+	dw .unk_0b39
+	dw .unk_0b43
+	dw .unk_0b4d
+	dw .unk_0b57
+	dw .unk_0b61
+	dw .unk_0b6b
+	dw .unk_0b75
+	dw .unk_0b7f
+	dw .unk_0b89
+	dw .unk_0b93
+	dw .unk_0b9d
+	dw .unk_0ba7
+	dw .unk_0bb1
+	dw .unk_0bbb
+	dw .unk_0bc5
+	dw .unk_0bcf
+	dw .unk_0bd9
+	dw .unk_0be3
+	dw .unk_0bed
+	dw .unk_0bf7
+	dw .unk_0c01
+	dw .unk_0c0b
+	dw .unk_0c15
+	dw .unk_0c1f
+	dw .unk_0c29
+	dw .unk_0c33
+	dw .unk_0c3d
 
-unk_0ab7:
+.unk_0ab7:
 	db $00, $01, $8e, $7e, $5f, $a6, $5a, $a6, $00, $00
-unk_0ac1:
+.unk_0ac1:
 	db $00, $01, $57, $86, $31, $0d, $28, $00, $00, $00
-unk_0acb:
+.unk_0acb:
 	db $00, $01, $05, $08, $0d, $28, $5e, $a0, $64, $00
-unk_0ad5:
+.unk_0ad5:
 	db $00, $01, $5c, $7e, $77, $19, $02, $40, $07, $00
-unk_0adf:
+.unk_0adf:
 	db $00, $01, $13, $2e, $19, $0c, $4e, $08, $1c, $08
-unk_0ae9:
+.unk_0ae9:
 	db $01, $01, $0a, $2b, $0a, $2b, $39, $2e, $33, $00
-unk_0af3:
+.unk_0af3:
 	db $02, $00, $63, $7e, $7f, $52, $19, $11, $36, $00
-unk_0afd:
+.unk_0afd:
 	db $02, $00, $24, $40, $2a, $10, $04, $16, $50, $07
-unk_0b07:
+.unk_0b07:
 	db $03, $01, $74, $58, $a0, $64, $19, $08, $12, $00
-unk_0b11:
+.unk_0b11:
 	db $03, $00, $6c, $8d, $a6, $19, $05, $1f, $23, $28
-unk_0b1b:
+.unk_0b1b:
 	db $03, $01, $70, $85, $9e, $79, $19, $03, $10, $00
-unk_0b25:
+.unk_0b25:
 	db $03, $01, $6b, $64, $6b, $64, $19, $1e, $21, $27
-unk_0b2f:
+.unk_0b2f:
 	db $03, $01, $5c, $7e, $77, $19, $22, $39, $1f, $00
-unk_0b39:
+.unk_0b39:
 	db $02, $00, $04, $16, $50, $07, $11, $4f, $03, $00
-unk_0b43:
+.unk_0b43:
 	db $04, $01, $6e, $5c, $a0, $5a, $0a, $3e, $0a, $00
-unk_0b4d:
+.unk_0b4d:
 	db $04, $01, $7c, $53, $62, $19, $12, $42, $00, $00
-unk_0b57:
+.unk_0b57:
 	db $04, $01, $6f, $95, $a6, $58, $19, $06, $32, $00
-unk_0b61:
+.unk_0b61:
 	db $05, $01, $1b, $06, $28, $19, $12, $40, $00, $00
-unk_0b6b:
+.unk_0b6b:
 	db $05, $01, $75, $57, $a0, $97, $19, $06, $0e, $07
-unk_0b75:
+.unk_0b75:
 	db $05, $01, $5a, $64, $89, $6f, $19, $06, $09, $27
-unk_0b7f:
+.unk_0b7f:
 	db $05, $01, $18, $21, $29, $10, $02, $26, $03, $00
-unk_0b89:
+.unk_0b89:
 	db $05, $01, $0c, $36, $20, $25, $08, $1e, $0c, $00
-unk_0b93:
+.unk_0b93:
 	db $05, $01, $01, $09, $19, $12, $07, $00, $00, $00
-unk_0b9d:
+.unk_0b9d:
 	db $05, $01, $1c, $15, $19, $28, $19, $56, $8e, $7e
-unk_0ba7:
+.unk_0ba7:
 	db $05, $01, $5d, $55, $53, $14, $5c, $57, $70, $b4
-unk_0bb1:
+.unk_0bb1:
 	db $05, $01, $01, $08, $1f, $19, $35, $13, $2e, $00
-unk_0bbb:
+.unk_0bbb:
 	db $05, $01, $5d, $5a, $a0, $95, $00, $00, $00, $00
-unk_0bc5:
+.unk_0bc5:
 	db $05, $01, $06, $25, $20, $3d, $22, $00, $00, $00
-unk_0bcf:
+.unk_0bcf:
 	db $05, $01, $28, $2e, $33, $51, $72, $00, $00, $00
-unk_0bd9:
+.unk_0bd9:
 	db $05, $01, $11, $02, $0b, $15, $6c, $58, $7b, $53
-unk_0be3:
+.unk_0be3:
 	db $01, $01, $51, $72, $39, $1f, $00, $00, $00, $00
-unk_0bed:
+.unk_0bed:
 	db $01, $01, $5b, $7e, $56, $58, $05, $16, $30, $28
-unk_0bf7:
+.unk_0bf7:
 	db $01, $01, $10, $1f, $33, $41, $2e, $14, $03, $00
-unk_0c01:
+.unk_0c01:
 	db $05, $00, $8e, $64, $79, $69, $a6, $64, $00, $00
-unk_0c0b:
+.unk_0c0b:
 	db $05, $00, $0a, $03, $28, $4d, $08, $90, $a0, $58
-unk_0c15:
+.unk_0c15:
 	db $05, $01, $78, $84, $a6, $90, $b3, $00, $00, $00
-unk_0c1f:
+.unk_0c1f:
 	db $05, $01, $78, $84, $a6, $90, $b4, $00, $00, $00
-unk_0c29:
+.unk_0c29:
 	db $05, $01, $78, $84, $a6, $90, $b5, $00, $00, $00
-unk_0c33:
+.unk_0c33:
 	db $05, $01, $78, $84, $a6, $90, $b6, $00, $00, $00
-unk_0c3d:
+.unk_0c3d:
 	db $05, $01, $78, $84, $a6, $90, $b7, $00, $00, $00
 
 unk_0c47:
-	dr $0c47, $0d11
+	dw .unk_0c5b
+	dw .unk_0c64
+	dw .unk_0c6d
+	dw .unk_0c76
+	dw .unk_0c7f
+	dw .unk_0c88
+	dw .unk_0c91
+	dw .unk_0c9a
+	dw .unk_0ca3
+	dw .unk_0cac
 
-Func_0d11::
-	dr $0d11, $0d7a
+.unk_0c5b:
+	db $05, $7c, $53, $62, $19, $12, $42, $00, $00
+.unk_0c64:
+	db $0a, $1f, $19, $5a, $64, $89, $6f, $00, $00
+.unk_0c6d:
+	db $0f, $5c, $7e, $77, $19, $02, $40, $07, $00
+.unk_0c76:
+	db $14, $02, $08, $0b, $19, $5a, $64, $89, $6f
+.unk_0c7f:
+	db $19, $6e, $5c, $a0, $5a, $0a, $3e, $0a, $00
+.unk_0c88:
+	db $1e, $0c, $19, $5a, $64, $89, $6f, $00, $00
+.unk_0c91:
+	db $23, $0a, $2b, $0a, $2b, $39, $2e, $33, $00
+.unk_0c9a:
+	db $28, $05, $03, $19, $5a, $64, $89, $6f, $00
+.unk_0ca3:
+	db $2d, $5b, $7e, $56, $58, $05, $16, $30, $28
+.unk_0cac:
+	db $32, $06, $20, $19, $5a, $64, $89, $6f, $00
+
+unk_0cb5:
+	db $00, $10, $01, $1b, $00, $04, $01, $33, $00, $0f, $01, $20, $00, $06, $01, $30
+	db $00, $20, $01, $3b, $2f, $2e, $3e, $28, $1f, $0c, $4f, $03, $2a, $2e, $0c, $4e
+	db $03, $11, $4e, $03, $0c, $4e, $30, $4f, $03, $11, $4e, $03, $20, $15, $27, $02
+	db $00, $00, $00, $00, $1a, $2e, $16, $2e, $1f, $04, $00, $00, $02, $11, $16, $2e
+	db $1f, $04, $00, $00, $08, $16, $19, $73, $78, $8f, $64, $00, $0c, $4e, $33, $0b
+	db $2a, $0c, $23, $19, $02, $08, $0b, $2f, $20, $00, $00, $00, $1f, $02, $05, $28
+	db $0c, $23, $19, $00
+
+Func_0d19::
+	push bc
+	ld b, a
+	ldh a, [hff8e]
+	push af
+	ld a, b
+	ld [rROMB0], a
+	ld b, [hl]
+	pop af
+	ld [rROMB0], a
+	ld a, b
+	pop bc
+	ret
+
+Func_0d2a::
+	ld b, a
+	ldh a, [hff8e]
+	push af
+	ld a, b
+	call Bankswitch
+	ld bc, .ret
+	push bc
+	jp hl
+
+.ret
+	pop af
+	call Bankswitch
+	ret
+
+Func_0d3c:
+	di
+	ld [rROMB0], a
+	call Func_0d4a
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
+
+Func_0d4a::
+	ld hl, wc000
+	ldh a, [hff95]
+	and a
+	jr z, .asm_0d59
+	rlca
+	rlca
+	ld b, l
+	ld c, a
+	add hl, bc
+	ldh a, [hff95]
+
+.asm_0d59
+	cp $28
+	ret z
+	ld a, [de]
+	cp $ff
+	ret z
+
+	ld b, a
+	ldh a, [hff97]
+	add b
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld b, a
+	ldh a, [hff96]
+	add b
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ldh a, [hff95]
+	inc a
+	ldh [hff95], a
+	jr .asm_0d59
 
 Func_0d7a::
-	dr $0d7a, $0d8a
+	ld hl, wc000
+	ld de, 4
+	ld b, $28
+	ld a, $a0
+.asm_0d84
+	ld [hl], a
+	add hl, de
+	dec b
+	jr nz, .asm_0d84
+	ret
 
 Func_0d8a::
-	dr $0d8a, $0dfd
+	ldh a, [hfff6]
+	and a
+	ret z
+
+	ldh a, [hfff7]
+	and a
+	ret nz
+
+	ldh a, [hfff4]
+	and a
+	jp z, Init
+
+	dec a
+	ldh [hfff4], a
+	ldh a, [hfff3]
+	and a
+	ret z
+
+	ldh a, [hfff7]
+	and a
+	ret nz
+
+	ldh a, [hfffa]
+	and a
+	ret z
+
+	ldh a, [hfff2]
+	and a
+	ret z
+	dec a
+	ldh [hfff2], a
+	ret nz
+
+	ld a, $81
+	ldh [rSC], a
+	xor a
+	ldh [hfffa], a
+	ret
+
+Func_0db7::
+	xor a
+	ldh [hfff6], a
+	ldh [hfff5], a
+	ldh [hfff7], a
+	ldh [hfff8], a
+	ldh [hfff9], a
+	ldh [hfffb], a
+	ldh [hfffc], a
+	ldh [hfffd], a
+	ldh [hfffe], a
+	ldh [hfffa], a
+	ldh [hfff3], a
+	ld a, $fd
+	ldh [hfff4], a
+	ld a, $02
+	ldh [hfff2], a
+
+	ld hl, wc0a0
+	ld bc, $0040
+	call ClearBytes
+	ld hl, wc0e0
+	ld bc, $0040
+	call ClearBytes
+
+	ld a, $dd
+	ldh [rSB], a
+	ld a, $80
+	ldh [rSC], a
+
+	ldh a, [rIF]
+	and $f7
+	ldh [rIF], a
+	ldh a, [rIE]
+	or $08
+	ldh [rIE], a
+	ret
 
 Func_0dfd::
 	ldh a, [rIF]
 	and $f7
 	ldh [rIF], a
-
 	ldh a, [rIE]
 	and $f7
 	ldh [rIE], a
@@ -1472,10 +2003,253 @@ Func_0e3f::
 	ret
 
 Serial::
-	dr $0e48, $0f34
+	push af
+	push bc
+	push de
+	push hl
+	di
+	ld a, $fd
+	ldh [hfff4], a
+	ldh a, [hfff6]
+	and a
+	jr nz, .asm_0e85
+
+	xor a
+	ldh [hfff3], a
+	ldh a, [rSB]
+	cp $fe
+	jr z, .asm_0e71
+	cp $dd
+	jr z, .asm_0e77
+	xor a
+	ldh [hfff5], a
+	ld a, $dd
+	ldh [rSB], a
+	ld a, $80
+	ldh [rSC], a
+	jp Func_0ea4
+
+.asm_0e71
+	ld a, $01
+	ldh [hfff5], a
+	ldh [hfff3], a
+.asm_0e77
+	ld a, $01
+	ldh [hfff6], a
+	xor a
+	ldh [rSB], a
+	ld a, $80
+	ldh [rSC], a
+	jp Func_0ea4
+
+.asm_0e85
+	ld a, $01
+	ldh [hfff7], a
+	ldh a, [rSB]
+	ldh [hfff8], a
+	call Func_0ed2
+	call Func_0eb2
+	ldh a, [hfff9]
+	ldh [rSB], a
+	ld a, $80
+	ldh [rSC], a
+	ldh a, [hfff3]
+	xor $01
+	ldh [hfff3], a
+	xor a
+	ldh [hfff7], a
+
+Func_0ea4::
+	ld a, $01
+	ldh [hfffa], a
+	ld a, $02
+	ldh [hfff2], a
+	pop hl
+	pop de
+	pop bc
+	pop af
+	ei
+	reti
+
+Func_0eb2::
+	ldh a, [hfffb]
+	and a
+	jr z, .asm_0ecc
+
+	ld hl, wc0a0
+	ldh a, [hfffd]
+	ld d, 0
+	ld e, a
+	add hl, de
+	ld a, [hl]
+	ldh [hfff9], a
+	inc e
+	ld a, e
+	ldh [hfffd], a
+	ld hl, hfffb
+	dec [hl]
+	ret
+
+.asm_0ecc
+	xor a
+	ldh [hfffd], a
+	ldh [hfff9], a
+	ret
+
+Func_0ed2::
+	ldh a, [hfffc]
+	and a
+	jr z, .asm_0eec
+
+	ld hl, wc0e0
+	ldh a, [hfffe]
+	ld d, $00
+	ld e, a
+	add hl, de
+	ldh a, [hfff8]
+	ld [hl], a
+	inc e
+	ld a, e
+	ldh [hfffe], a
+	ld hl, hfffc
+	dec [hl]
+	ret
+
+.asm_0eec
+	xor a
+	ldh [hfffe], a
+	ldh a, [hfff8]
+	and a
+	ret z
+
+	ldh [hfffc], a
+	ret
+
+; Not quite sure how the next 3 functions are scoped
+
+Func_0ef6::
+	and $3f
+	inc a
+	ld b, a
+	srl b
+	jr nc, .asm_0f01
+	ld a, [de]
+	inc de
+	ld [hli], a
+
+.asm_0f01:
+	jp z, Func_0f79.asm_0f8b
+
+.asm_0f04:
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr z, Func_0f79.asm_0f8b
+
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr z, Func_0f79.asm_0f8b
+
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr z, Func_0f79.asm_0f8b
+
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec b
+	jr nz, .asm_0f04
+
+	ld a, [de]
+	bit 7, a
+	jr nz, Func_0f34
+	bit 6, a
+	jp nz, Func_0f79.asm_0fc0
+	jr Func_0f79.asm_0f94
 
 Func_0f34::
-	dr $0f34, $0f79
+	inc de
+	bit 6, a
+	jr nz, Func_0ef6
+
+	and $3f
+	ld b, a
+	ld a, [de]
+	inc de
+	add l
+	ld c, a
+	ld a, [de]
+	inc de
+	adc h
+	push de
+	ld d, a
+	ld e, c
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	srl b
+	jr nc, .asm_0f59
+
+	ld a, [de]
+	ld [hli], a
+	inc de
+
+.asm_0f59:
+	jr z, .asm_0f6d
+
+.asm_0f5b:
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	dec b
+	jr z, .asm_0f6d
+
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	dec b
+	jr nz, .asm_0f5b
+
+.asm_0f6d:
+	pop de
+	ld a, [de]
+	bit 7, a
+	jr nz, Func_0f34
+	bit 6, a
+	jr nz, Func_0f79.asm_0fc0
+	jr Func_0f79.asm_0f94
 
 Func_0f79::
 ; 2bpp decoding?

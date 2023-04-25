@@ -107,6 +107,8 @@ hffee:: ds 1 ; ffee
 hffef:: ds 1 ; ffef
 hfff0:: ds 1 ; fff0
 hfff1:: ds 1 ; fff1
+
+; Serial
 hfff2:: ds 1 ; fff2
 hfff3:: ds 1 ; fff3
 hfff4:: ds 1 ; fff4
