@@ -2376,22 +2376,381 @@ Func_0f79::
 	ret
 
 Func_1006::
-	dr $1006, $1026
+	ld a, l
+	ld de, wc49d
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	add hl, de
+	ld e, $01
+	and $07
+	jr z, .asm_1022
+.asm_101d
+	rlc e
+	dec a
+	jr nz, .asm_101d
+
+.asm_1022
+	ld a, [hl]
+	or e
+	ld [hl], a
+	ret
 
 Func_1026::
-	dr $1026, $1046
+	ld a, l
+	ld de, wc49d
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	add hl, de
+	ld e, $fe
+	and $07
+	jr z, .asm_1042
+.asm_103d
+	rlc e
+	dec a
+	jr nz, .asm_103d
+
+.asm_1042
+	ld a, [hl]
+	and e
+	ld [hl], a
+	ret
 
 Func_1046::
-	dr $1046, $1065
+	ld a, l
+	ld de, wc49d
+	srl h
+	rr l
+	srl h
+	rr l
+	srl h
+	rr l
+	add hl, de
+	ld e, $01
+	and $07
+	jr z, .asm_1062
+.asm_105d
+	rlc e
+	dec a
+	jr nz, .asm_105d
+
+.asm_1062
+	ld a, [hl]
+	and e
+	ret
 
 Func_1065::
-	dr $1065, $1094
+	ld a, [wca85]
+	and a
+	jr z, .asm_108a
+
+	ld de, wcaae
+	ld hl, wca86
+.asm_1071:
+	push af
+	ld a, [de]
+	ld c, a
+	inc de
+	ld a, [de]
+	ld b, a
+	inc de
+	ld a, $01
+	ldh [rVBK], a
+	ld a, [hli]
+	ld [bc], a
+	xor a
+	ldh [rVBK], a
+	ld a, [hli]
+	ld [bc], a
+	pop af
+	dec a
+	jr nz, .asm_1071
+	ld [wca85], a
+
+.asm_108a
+	ld hl, wca83
+	ld a, [hli]
+	ldh [rSCX], a
+	ld a, [hli]
+	ldh [rSCY], a
+	ret
 
 Func_1094::
-	dr $1094, $118e
+	ld a, [wcbdb]
+	cp $20
+	jr c, .asm_109e
+	xor a
+	jr .ret
+
+.asm_109e:
+	ld hl, wcbda
+	add [hl]
+	ld [wcbdb], a
+	ld e, $10
+	ld bc, wcb56
+	ld hl, wcad6
+.asm_10ad
+	push de
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	pop de
+	dec e
+	jr nz, .asm_10ad
+
+	ld a, $01
+	ld [wcbd9], a
+.ret
+	ret
+
+Func_10c4::
+	ld a, [wcbdb]
+	cp $1f
+	jr c, .asm_10ce
+	xor a
+	jr .ret
+
+.asm_10ce
+	ld hl, wcbda
+	add [hl]
+	ld [wcbdb], a
+	ld l, c
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	ld e, l
+	ld d, h
+	ld hl, wcb56
+	add hl, de
+	ld c, l
+	ld b, h
+	ld hl, wcad6
+	add hl, de
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	ld a, $01
+	ld [wcbd9], a
+.ret
+	ret
+
+Func_10f9::
+	ld a, [wcbdb]
+	cp $1f
+	jr c, .asm_1103
+	xor a
+	jr .ret
+
+.asm_1103:
+	ld hl, wcbda
+	add [hl]
+	ld [wcbdb], a
+	ld e, $08
+	ld bc, wcb56
+	ld hl, wcad6
+.asm_1112
+	push de
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	pop de
+	dec e
+	jr nz, .asm_1112
+
+	ld a, $01
+	ld [wcbd9], a
+.ret
+	ret
+
+Func_1129::
+	ld a, [wcbdb]
+	cp $1f
+	jr c, .asm_1133
+	xor a
+	jr .ret
+
+.asm_1133
+	ld hl, wcbda
+	add [hl]
+	ld [wcbdb], a
+	ld l, c
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	ld e, l
+	ld d, h
+	ld hl, wcb96
+	add hl, de
+	ld c, l
+	ld b, h
+	ld hl, wcb16
+	add hl, de
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	ld a, $01
+	ld [wcbd9], a
+.ret
+	ret
+
+Func_115e::
+	ld a, [wcbdb]
+	cp $1f
+	jr c, .asm_1168
+	xor a
+	jr .ret
+
+.asm_1168:
+	ld hl, wcbda
+	add [hl]
+	ld [wcbdb], a
+	ld e, $08
+	ld bc, wcb96
+	ld hl, wcb16
+.asm_1177
+	push de
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	call Func_118e
+	pop de
+	dec e
+	jr nz, .asm_1177
+
+	ld a, $01
+	ld [wcbd9], a
+.ret
+	ret
 
 Func_118e::
-	dr $118e, $122f
+	ld a, [hli]
+	ld e, a
+	ld a, [hld]
+	ld d, a
+	push hl
+	ld a, e
+	and $1f
+	ld [wcbd6], a
+	srl d
+	rr e
+	srl d
+	rr e
+	srl e
+	srl e
+	srl e
+	ld a, e
+	ld [wcbd7], a
+	ld a, d
+	ld [wcbd8], a
+	ld a, [bc]
+	ld e, a
+	inc bc
+	ld a, [bc]
+	ld d, a
+	inc bc
+	push bc
+	ld a, e
+	and $1f
+	ld c, a
+	srl d
+	rr e
+	srl d
+	rr e
+	srl e
+	srl e
+	srl e
+	ld hl, wcbda
+	ld a, [wcbd6]
+	cp c
+	jr z, .asm_11e4
+	jr c, .asm_11db
+	sub [hl]
+	jr c, .asm_11e3
+	cp c
+	jr nc, .asm_11e4
+	jr .asm_11e3
+
+.asm_11db:
+	add [hl]
+	cp $1f
+	jr nc, .asm_11e3
+	cp c
+	jr c, .asm_11e4
+
+.asm_11e3
+	ld a, c
+.asm_11e4
+	ld c, a
+	ld a, [wcbd7]
+	cp e
+	jr z, .asm_11fe
+	jr c, .asm_11f5
+	sub [hl]
+	jr c, .asm_11fd
+	cp e
+	jr nc, .asm_11fe
+	jr .asm_11fd
+
+.asm_11f5:
+	add [hl]
+	cp $1f
+	jr nc, .asm_11fd
+	cp e
+	jr c, .asm_11fe
+
+.asm_11fd
+	ld a, e
+.asm_11fe
+	ld e, a
+	ld a, [wcbd8]
+	cp d
+	jr z, .asm_1218
+	jr c, .asm_120f
+	sub [hl]
+	jr c, .asm_1217
+	cp d
+	jr nc, .asm_1218
+	jr .asm_1217
+
+.asm_120f:
+	add [hl]
+	cp $1f
+	jr nc, .asm_1217
+	cp d
+	jr c, .asm_1218
+
+.asm_1217
+	ld a, d
+.asm_1218
+	ld d, a
+	sla e
+	sla e
+	sla e
+	sla e
+	rl d
+	sla e
+	rl d
+	ld a, e
+	or c
+	pop bc
+	pop hl
+	ld [hli], a
+	ld a, d
+	ld [hli], a
+	ret
 
 Func_122f::
 	ld a, [wcbd9]
@@ -2450,8 +2809,74 @@ Func_1347::
 .ret
 	ret
 
-Func_1371:
-	dr $1371, $13b6
+Func_1371::
+	ld l, a
+	ld h, 0
+	ld bc, $d85d
+	add hl, hl
+	add hl, bc
+	push hl
+	push de
+	ld a, [hli]
+	inc de
+	inc de
+	ld c, l
+	ld b, h
+	ld l, a
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, de
+	ld a, [hli]
+	ld a, [hli]
+	ld e, l
+	ld d, h
+	ld l, c
+	ld h, b
+	cp [hl]
+	jr nz, .asm_13ad
+	dec hl
+	inc [hl]
+	pop bc
+	inc bc
+	ld a, [bc]
+	dec bc
+	push bc
+	cp [hl]
+	jr z, .asm_13a2
+
+	inc hl
+	ld [hl], 0
+	inc de
+	inc de
+	inc de
+	inc de
+	jr .asm_13ad
+
+.asm_13a2
+	pop de
+	pop hl
+	xor a
+	ld [hli], a
+	ld [hl], a
+	inc de
+	inc de
+	inc de
+	inc de
+	jr .asm_13af
+
+.asm_13ad
+	pop af
+	pop af
+
+.asm_13af
+	inc [hl]
+	ld l, e
+	ld h, d
+	ld a, [hli]
+	ld e, [hl]
+	ld d, a
+	ret
 
 Func_13b6:
 	di
@@ -2466,7 +2891,7 @@ Func_13b6:
 Func_13c5:
 	ld l, a
 	ld h, 0
-	ld de, wd85d
+	ld de, $d85d
 	add hl, hl
 	add hl, de
 	xor a
@@ -2474,11 +2899,80 @@ Func_13c5:
 	ld [hli], a
 	ret
 
-Func_13d1:
-	dr $13d1, $140d
+Func_13d1::
+	ld a, [de]
+	inc de
+	and a
+	jr z, .ret
+
+	push de
+	ld de, wc000
+	ld hl, hff95
+	ld l, [hl]
+	ld h, 0
+	add hl, hl
+	add hl, hl
+	add hl, de
+	ld d, a
+	ldh a, [hff95]
+	add d
+	ldh [hff95], a
+	ld a, d
+	pop de
+
+.asm_13eb
+	push af
+	ld a, [de]
+	add b
+	inc de
+	ld [hli], a
+
+	ld a, [de]
+	add c
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	ld a, [de]
+	inc de
+	ld [hli], a
+	pop af
+	dec a
+	jr nz, .asm_13eb
+.ret
+	ret
+
+Func_13ff::
+	di
+	ld [rROMB0], a
+	call Func_13d1
+	ldh a, [hff8e]
+	ld [rROMB0], a
+	ei
+	ret
 
 Func_140d::
-	dr $140d, $1422
+	ld a, $20
+	sub c
+
+.asm_1410
+	push bc
+	push af
+.asm_1412
+	ld a, [de]
+	inc de
+	ld [hli], a
+	dec c
+	jr nz, .asm_1412
+	pop af
+	ld c, a
+	ld b, 0
+	add hl, bc
+	pop bc
+	dec b
+	jr nz, .asm_1410
+	ret
 
 Func_1422::
 	di
@@ -2504,36 +2998,281 @@ Func_1430::
 	call Func_15eb
 	ret
 
-Func_1451:
-	dr $1451, $14a1
+Func_1451::
+	push hl
+	ld d, h
+	ld e, l
+	add hl, hl
+	add hl, de
+	ld de, $5620
+	add hl, de
+	ld de, wccc0
+	ld c, $03
+	ld a, $50
+	call FarCopyBytes8
+
+	ld hl, wccc0
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld b, [hl]
+	ld h, a
+	ld l, e
+
+	xor a
+	ldh [rVBK], a
+	ldh a, [hRAMBank]
+	ldh [hff92], a
+	ld a, $04
+	ldh [hRAMBank], a
+	ldh [rSVBK], a
+	ld a, b
+	ld de, w4d000
+	call Func_0f79
+	ld hl, rLCDC
+	res 7, [hl] ; LCDCF_OFF
+	ld hl, w4d000
+	ld de, $8800
+	ld bc, $0540
+	call CopyBytes16
+	ld hl, rLCDC
+	set 7, [hl] ; LCDCF_ON
+	ldh a, [hff92]
+	ld b, a
+	ld a, b
+	ldh [hRAMBank], a
+	ldh [rSVBK], a
+	pop hl
+	ret
 
 Func_14a1::
-	dr $14a1, $1509
+	push hl
+	ld d, h
+	ld e, l
+	add hl, hl
+	add hl, de
+	push hl
+	ld de, $5dd6
+	add hl, de
+	ld de, wccc0
+	ld c, $03
+	ld a, $50
+	call FarCopyBytes8
+	ld hl, wccc0
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wcc60
+	ld c, $30
+	ld a, [wccc2]
+	call FarCopyBytes8
+
+	pop hl
+	ld de, $658c
+	add hl, de
+	ld de, wccc0
+	ld c, $03
+	ld a, $50
+	call FarCopyBytes8
+	ld hl, wccc0
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld de, wcca0
+	ld c, $20
+	ld a, [wccc2]
+	call FarCopyBytes8
+
+	ld a, [wcc5f]
+	ld de, .unk_14fb
+	call PointerTable
+	ld de, wcc90
+	ld c, $10
+	ld a, $50
+	call FarCopyBytes8
+	pop hl
+	ret
+
+.unk_14fb
+	dw $4300
+	dw $4300
+	dw $4310
+	dw $4310
+	dw $4320
+	dw $4320
+	dw $4330
 
 Func_1509::
-	dr $1509, $1531
+	push hl
+	ld a, [wcc5f]
+	ld de, .unk_1523
+	call PointerTable
+	xor a
+	ldh [rVBK], a
+	ld de, $8d40
+	ld bc, $c0
+	ld a, $50
+	call FarCopyBytesVRAM
+	pop hl
+	ret
+
+.unk_1523
+	dw $4000
+	dw $4000
+	dw $40c0
+	dw $40c0
+	dw $4180
+	dw $4180
+	dw $4240
 
 Func_1531::
-	dr $1531, $1574
+	push hl
+	ld de, $4340
+	ld hl, $d000
+	ld b, $14
+	ld c, $12
+	push bc
+	ld a, $50
+	call Func_049e
+	ld de, $44a8
+	ld hl, $d300
+	pop bc
+	ld a, $50
+	call Func_049e
+	pop de
+	push de
+	ld hl, $6d42
+	add hl, de
+	add hl, de
+	add hl, de
+	ld de, wccc0
+	ld c, $03
+	ld a, $50
+	call FarCopyBytes8
+
+	ld hl, wccc0
+	ld a, [hli]
+	ld d, [hl]
+	ld e, a
+	ld a, [wccc2]
+	ld hl, $d366
+	ld b, $08
+	ld c, b
+	call Func_049e
+	pop hl
+	ret
 
 Func_1574::
-	dr $1574, $1580
+	push hl
+	call Func_09fb
+	ld de, $d026
+	call Func_097d
+	pop hl
+	ret
 
 Func_1580::
-	dr $1580, $15a3
+	push hl
+	call Func_09fb
+	call Func_09f0
+	ld de, $d1c6
+	ld b, $ff
+	ld a, $4f
+	call Func_00df
+	ld de, $d1e6
+	ld a, $4f
+	call Func_00df
+	ld de, $d206
+	ld a, $4f
+	call Func_00df
+	pop hl
+	ret
 
 Func_15a3::
-	dr $15a3, $15eb
+	push hl
+	call Func_09b5
+	ld a, [wccc3]
+	ld de, $8e00
+	call Func_1628
+	ld a, [wccc4]
+	ld de, $8e40
+	call Func_1628
+	ld a, [wccc5]
+	ld de, $8e80
+	call Func_1628
+	ld a, [wccc6]
+	ld de, $8ec0
+	call Func_1628
+	ld a, [wccc7]
+	dec a
+	ld de, $15e3
+	call PointerTable
+	ld hl, $d185
+	ld b, $0a
+	ld c, $02
+	ld a, $50
+	call Func_049e
+	pop hl
+	ret
+
+.unk_15e3
+	dw $4610
+	dw $4624
+	dw $4638
+	dw $464c
 
 Func_15eb::
-	dr $15eb, $1628
+	push hl
+	ld d, h
+	ld e, l
+	add hl, hl
+	add hl, de
+	ld de, $74f8
+	add hl, de
+	ld de, wccc0
+	ld c, $03
+	ld a, $50
+	call FarCopyBytes8
+	pop hl
+	ret
+
+Func_1600::
+	ld a, $30
+
+Func_1602:
+	ldh [hff96], a
+
+Func_1604:
+	ld a, $18
+	ldh [hff97], a
+	ld hl, wccc0
+	ld a, [hli]
+	ld e, a
+	ld a, [hli]
+	ld d, a
+	ld a, [hl]
+	call Func_0d3c
+	ld a, $c0
+	ld b, a
+	ld hl, wc000
+	ld de, $04
+	ld c, $14
+	inc hl
+	inc hl
+.asm_1620
+	ld a, [hl]
+	add b
+	ld [hl], a
+	add hl, de
+	dec c
+	jr nz, .asm_1620
+	ret
 
 Func_1628::
 	ld b, $40
 	call Func_05cd
 	ld a, $03
 	ldh [rSVBK], a
-	ld bc, wd000
+	ld bc, $d000
 	add hl, bc
 	ld bc, $40
 	di
