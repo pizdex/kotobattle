@@ -67,3 +67,79 @@
 	charmap "ぶ", $40
 	charmap "べ", $41
 	charmap "ぼ", $42
+	charmap "ぱ", $43
+	charmap "ぴ", $44
+	charmap "ぷ", $45
+	charmap "ぺ", $46
+	charmap "ぽ", $47
+
+	charmap "ぁ", $48
+	charmap "ぃ", $49
+	charmap "ぅ", $4a
+	charmap "ぇ", $4b
+	charmap "ぉ", $4c
+	charmap "ゃ", $4d
+	charmap "ゅ", $4e
+	charmap "ょ", $4f
+	charmap "っ", $50
+
+	charmap "ア", $51
+	charmap "イ", $52
+	charmap "ウ", $53
+	charmap "エ", $54
+	charmap "オ", $55
+	charmap "カ", $56
+	charmap "キ", $57
+	charmap "ク", $58
+	charmap "ケ", $59
+	charmap "コ", $5a
+	charmap "サ", $5b
+	charmap "シ", $5c
+	charmap "ス", $5d
+	charmap "セ", $5e
+	charmap "ソ", $5f
+	charmap "タ", $60
+	charmap "チ", $61
+	charmap "ツ", $62
+	charmap "テ", $63
+	charmap "ト", $64
+	charmap "ナ", $65
+	charmap "ニ", $66
+	charmap "ヌ", $67
+	charmap "ネ", $68
+	charmap "ノ", $69
+	charmap "ハ", $6a
+	charmap "ヒ", $6b
+	charmap "フ", $6c
+	charmap "へ", $6d
+	charmap "ホ", $6e
+	charmap "マ", $6f
+	charmap "ミ", $70
+	charmap "ム", $71
+	charmap "メ", $72
+	charmap "モ", $73
+	charmap "ヤ", $74
+	charmap "ユ", $75
+	charmap "ヨ", $76
+
+	charmap "ラ", $77
+	charmap "リ", $78
+	charmap "ル", $79
+	charmap "レ", $7a
+	charmap "ロ", $7b
+	charmap "ワ", $7c
+	charmap "ヲ", $7d
+	charmap "ン", $7e
+
+	charmap "ァ", $98
+	charmap "ィ", $99
+	charmap "ゥ", $9a
+	charmap "ェ", $9b
+	charmap "ォ", $9c
+	charmap "ャ", $9d
+	charmap "ュ", $9e
+	charmap "ョ", $9f
+
+	charmap "⋯", $bf
+
+	charmap "@", $ff ; Terminator

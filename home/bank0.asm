@@ -506,28 +506,29 @@ Func_0490::
 	pop bc
 	ret
 
-Func_049e:
+FarPlaceTilemap:
 	di
 	ld [rROMB0], a
-	call Func_04ac
+	call PlaceTilemap
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
 
-Func_04ac::
+PlaceTilemap::
+; Place b*c tilemap from de to hl
 	ld a, $20
 	sub b
 	ldh [hff92], a
-
 .asm_04b1:
 	push bc
-.asm_04b2
+.copy
 	ld a, [de]
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, .asm_04b2
+	jr nz, .copy
+
 	ldh a, [hff92]
 	ld c, a
 	add hl, bc
@@ -3133,12 +3134,12 @@ Func_1531::
 	ld c, $12
 	push bc
 	ld a, $50
-	call Func_049e
+	call FarPlaceTilemap
 	ld de, $44a8
 	ld hl, $d300
 	pop bc
 	ld a, $50
-	call Func_049e
+	call FarPlaceTilemap
 	pop de
 	push de
 	ld hl, $6d42
@@ -3158,7 +3159,7 @@ Func_1531::
 	ld hl, $d366
 	ld b, $08
 	ld c, b
-	call Func_049e
+	call FarPlaceTilemap
 	pop hl
 	ret
 
@@ -3210,7 +3211,7 @@ Func_15a3::
 	ld b, $0a
 	ld c, $02
 	ld a, $50
-	call Func_049e
+	call FarPlaceTilemap
 	pop hl
 	ret
 
