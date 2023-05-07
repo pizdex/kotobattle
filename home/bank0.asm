@@ -2127,57 +2127,56 @@ Func_0ed2::
 	ret
 
 ; Not quite sure how the next 3 functions are scoped
+; They are all involved in 2bpp decompression
 
 Func_0ef6::
+; Copy a bytes from de to hl
 	and $3f
 	inc a
 	ld b, a
 	srl b
-	jr nc, .asm_0f01
+	jr nc, .check_zero_length
 	ld a, [de]
 	inc de
 	ld [hli], a
 
-.asm_0f01:
-	jp z, Func_0f79.asm_0f8b
+.check_zero_length
+	jp z, Func_0f79.next_byte
 
-.asm_0f04:
+.copy
+REPT 2
 	ld a, [de]
 	inc de
 	ld [hli], a
-	ld a, [de]
-	inc de
-	ld [hli], a
+ENDR
 	dec b
-	jr z, Func_0f79.asm_0f8b
+	jr z, Func_0f79.next_byte
 
+REPT 2
 	ld a, [de]
 	inc de
 	ld [hli], a
-	ld a, [de]
-	inc de
-	ld [hli], a
+ENDR
 	dec b
-	jr z, Func_0f79.asm_0f8b
+	jr z, Func_0f79.next_byte
 
+REPT 2
 	ld a, [de]
 	inc de
 	ld [hli], a
-	ld a, [de]
-	inc de
-	ld [hli], a
+ENDR
 	dec b
-	jr z, Func_0f79.asm_0f8b
+	jr z, Func_0f79.next_byte
 
+REPT 2
 	ld a, [de]
 	inc de
 	ld [hli], a
-	ld a, [de]
-	inc de
-	ld [hli], a
+ENDR
 	dec b
-	jr nz, .asm_0f04
+	jr nz, .copy
 
+; Next byte
 	ld a, [de]
 	bit 7, a
 	jr nz, Func_0f34
@@ -2190,6 +2189,7 @@ Func_0f34::
 	bit 6, a
 	jr nz, Func_0ef6
 
+; Repeat previous bytes
 	and $3f
 	ld b, a
 	ld a, [de]
@@ -2202,48 +2202,38 @@ Func_0f34::
 	push de
 	ld d, a
 	ld e, c
+REPT 4
 	ld a, [de]
 	ld [hli], a
 	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
+ENDR
 	srl b
-	jr nc, .asm_0f59
+	jr nc, .asm_0f59 ; is byte less than 2?
 
 	ld a, [de]
 	ld [hli], a
 	inc de
 
 .asm_0f59:
-	jr z, .asm_0f6d
+	jr z, .next_byte
 
 .asm_0f5b:
+REPT 2
 	ld a, [de]
 	ld [hli], a
 	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
+ENDR
 	dec b
-	jr z, .asm_0f6d
-
+	jr z, .next_byte
+REPT 2
 	ld a, [de]
 	ld [hli], a
 	inc de
-	ld a, [de]
-	ld [hli], a
-	inc de
+ENDR
 	dec b
 	jr nz, .asm_0f5b
 
-.asm_0f6d:
+.next_byte
 	pop de
 	ld a, [de]
 	bit 7, a
@@ -2253,7 +2243,7 @@ Func_0f34::
 	jr Func_0f79.asm_0f94
 
 Func_0f79::
-; 2bpp decoding?
+; 2bpp decompression entry
 	push hl
 	di
 	ldh [hROMBank], a
@@ -2261,13 +2251,15 @@ Func_0f79::
 	ei
 	xor a
 	ld [rROMB1], a
+; swap hl and de
 	ld a, e
 	ld e, l
 	ld l, a
 	ld a, h
 	ld h, d
 	ld d, a
-.asm_0f8b
+
+.next_byte
 	ld a, [de]
 	bit 7, a
 	jr nz, Func_0f34
@@ -2288,17 +2280,17 @@ Func_0f79::
 	ld [hli], a
 
 .asm_0fa3
-	jr z, .asm_0f8b
+	jr z, .next_byte
 
 .asm_0fa5
 	ld [hli], a
 	ld [hli], a
 	dec b
-	jr z, .asm_0f8b
+	jr z, .next_byte
 	ld [hli], a
 	ld [hli], a
 	dec b
-	jr z, .asm_0f8b
+	jr z, .next_byte
 	ld [hli], a
 	ld [hli], a
 	dec b
@@ -2323,14 +2315,12 @@ Func_0f79::
 	push de
 	ld e, a
 	ld d, b
+REPT 2
 	ld a, d
 	ld [hli], a
 	ld a, e
 	ld [hli], a
-	ld a, d
-	ld [hli], a
-	ld a, e
-	ld [hli], a
+ENDR
 
 .asm_0fd4
 	ld a, d

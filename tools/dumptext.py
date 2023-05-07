@@ -18,7 +18,7 @@ for line in open('../charmap.asm'):
 			chars[byte] = char
 
 file = open(file, 'rb')
-file.seek(0x3F9AC)
+file.seek(0x7EFB3)
 count = 32
 
 #print(chars)
