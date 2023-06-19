@@ -115,7 +115,7 @@ print("Reading encoded data...")
 baserom = open('../build/kotobattle.gbc', 'rb')
 
 bank = 0x7f
-addr = 0x481d
+addr = 0x5e2d
 baserom.seek((bank * 0x4000) + (addr - 0x4000))
 
 start_addr = baserom.tell()
@@ -146,12 +146,12 @@ end_addr = baserom.tell()
 print("End address: $%04x" % end_addr)
 
 print("Writing encoded file...")
-with open("encoded_%02x_%04x.kb" % (bank, addr), "wb") as ofile:
+with open("../gfx/encoded/encoded_%02x_%04x.kb" % (bank, addr), "wb") as ofile:
         baserom.seek(start_addr)
         ofile.write(baserom.read(end_addr - start_addr))
 
 baserom.close()
-with open("decoded_%02x_%04x.w128.2bpp" % (bank, addr), "wb") as f:
+with open("../gfx/decoded/decoded_%02x_%04x.w128.2bpp" % (bank, addr), "wb") as f:
         print("Writing 2bpp data...")
         f.write(bytearray(data))
 

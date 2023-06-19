@@ -1,5 +1,20 @@
-unk_0f_4000:
-	dr $3c000, $3e7fb
+Func_0f_4000::
+	dr $3c000, $3c01b
+
+Func_0f_401b:
+	dr $3c01b, $3ccbd
+
+Func_0f_4cbd::
+	dr $3ccbd, $3d229
+
+Func_0f_5229::
+	dr $3d229, $3db6f
+
+Func_0f_5b6f::
+	dr $3db6f, $3e2f5
+
+Func_0f_62f5::
+	dr $3e2f5, $3e7fb
 
 Func_0f_67fb:
 	ld hl, $d146

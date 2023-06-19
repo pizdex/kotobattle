@@ -149,11 +149,26 @@ SetDoubleSpeed:
 .ret
 	ret
 
-unk_7f_40fa:
-	dr $1fc0fa, $1fc81d
+unk_7f_40fa::
+	dr $1fc0fa, $1fc1ee
+
+Gfx_7f_41ee::
+	INCBIN "gfx/encoded/encoded_7f_41ee.kb"
 
 Gfx_7f_481d::
-	dr $1fc81d, $1fd11d
+	INCBIN "gfx/encoded/encoded_7f_481d.kb"
 
 Gfx_7f_511d::
-	dr $1fd11d, $200000
+	INCBIN "gfx/encoded/encoded_7f_511d.kb"
+
+Gfx_7f_5d70:
+	INCBIN "gfx/encoded/encoded_7f_5d70.kb"
+
+unk_7f_5e2d:
+	dr $1fde2d, $1fee08
+
+Gfx_7f_6e08:
+	INCBIN "gfx/encoded/encoded_7f_6e08.kb"
+
+unk_7f_6f57:
+	dr $1fef57, $200000

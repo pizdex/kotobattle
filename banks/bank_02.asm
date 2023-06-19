@@ -1,5 +1,8 @@
-unk_02_4000:
-	dr $8000, $913c
+Func_02_4000::
+	dr $8000, $9128
+
+Func_02_5128::
+	dr $9128, $913c
 
 Func_02_513c:
 ; Place tilemaps
@@ -77,7 +80,10 @@ Func_02_5174:
 	jp Func_02_513c
 
 Func_02_51e2:
-	dr $91e2, $94cb
+	dr $91e2, $9228
+
+Func_02_5228::
+	dr $9228, $94cb
 
 Func_02_54cb:
 	dr $94cb, $95d6
@@ -101,7 +107,10 @@ unk_02_5adb:
 	dr $9adb, $9b3f
 
 unk_02_5b3f:
-	dr $9b3f, $a9d9
+	dr $9b3f, $a0db
+
+Func_02_60db::
+	dr $a0db, $a9d9
 
 image_02_69d9:
 	dr $a9d9, $c000

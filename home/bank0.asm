@@ -264,180 +264,180 @@ unk_02af:
 	dw Func_03f6
 
 Func_02eb::
-	ld a, $0f
+	ld a, BANK(Func_0f_62f5)
 	call Bankswitch
-	call $62f5
+	call Func_0f_62f5
 	ret
 
 Func_02f4::
-	ld a, $02
+	ld a, BANK(Func_02_5128)
 	call Bankswitch
-	call $5128
+	call Func_02_5128
 	ret
 
 Func_02fd::
-	ld a, $03
+	ld a, BANK(Func_03_41b8)
 	call Bankswitch
 	ld a, $06
 	ldh [hRAMBank], a
 	ldh [rSVBK], a
-	call $41b8
+	call Func_03_41b8
 	ret
 
 Func_030c::
-	ld a, $04
+	ld a, BANK(Func_04_5b37)
 	call Bankswitch
-	call $5b37
+	call Func_04_5b37
 	ret
 
 Func_0315::
-	ld a, $02
+	ld a, BANK(Func_02_4000)
 	call Bankswitch
-	call $4000
+	call Func_02_4000
 	ret
 
 Func_031e::
-	ld a, $06
+	ld a, BANK(Func_06_430a)
 	call Bankswitch
-	call $430a
+	call Func_06_430a
 	ret
 
 Func_0327::
-	ld a, $06
+	ld a, BANK(Func_06_7220)
 	call Bankswitch
-	call $7220
+	call Func_06_7220
 	ret
 
 Func_0330::
-	ld a, $02
+	ld a, BANK(Func_02_5228)
 	call Bankswitch
-	call $5228
+	call Func_02_5228
 	ret
 
 Func_0339::
-	ld a, $04
+	ld a, BANK(Func_04_659c)
 	call Bankswitch
-	call $659c
+	call Func_04_659c
 	ret
 
 Func_0342::
-	ld a, $0b
+	ld a, BANK(Func_0b_40db)
 	call Bankswitch
-	call $40db
+	call Func_0b_40db
 	ret
 
 Func_034b::
-	ld a, $05
+	ld a, BANK(Func_05_4f23)
 	call Bankswitch
-	call $4f23
+	call Func_05_4f23
 	ret
 
 Func_0354::
-	ld a, $04
+	ld a, BANK(Func_04_514f)
 	call Bankswitch
-	call $514f
+	call Func_04_514f
 	ret
 
 Func_035d::
-	ld a, $02
+	ld a, BANK(Func_02_60db)
 	call Bankswitch
-	call $60db
+	call Func_02_60db
 	ret
 
 Func_0366::
-	ld a, $06
+	ld a, BANK(Func_06_4000)
 	call Bankswitch
-	call $4000
+	call Func_06_4000
 	ret
 
 Func_036f::
-	ld a, $01
+	ld a, BANK(Func_01_6046)
 	call Bankswitch
-	call $6046
+	call Func_01_6046
 	ret
 
 Func_0378::
-	ld a, $04
+	ld a, BANK(Func_04_4000)
 	call Bankswitch
-	call $4000
+	call Func_04_4000
 	ret
 
 Func_0381::
-	ld a, $05
+	ld a, BANK(Func_05_4000)
 	call Bankswitch
-	call $4000
+	call Func_05_4000
 	ret
 
 Func_038a::
-	ld a, $0f
+	ld a, BANK(Func_0f_5b6f)
 	call Bankswitch
-	call $5b6f
+	call Func_0f_5b6f
 	ret
 
 Func_0393::
-	ld a, $08
+	ld a, BANK(Func_08_4000)
 	call Bankswitch
-	call $4000
+	call Func_08_4000
 	ret
 
 Func_039c::
-	ld a, $05
+	ld a, BANK(Func_05_6959)
 	call Bankswitch
-	call $6959
+	call Func_05_6959
 	ret
 
 Func_03a5::
-	ld a, $01
+	ld a, BANK(Func_01_4000)
 	call Bankswitch
-	call $4000
+	call Func_01_4000
 	ret
 
 Func_03ae::
-	ld a, $0f
+	ld a, BANK(Func_0f_5229)
 	call Bankswitch
-	call $5229
+	call Func_0f_5229
 	ret
 
 Func_03b7::
-	ld a, $2b
+	ld a, BANK(Func_2b_4082)
 	call Bankswitch
-	call $4082
+	call Func_2b_4082
 	ret
 
 Func_03c0::
-	ld a, $0f
+	ld a, BANK(Func_0f_4cbd)
 	call Bankswitch
-	call $4cbd
+	call Func_0f_4cbd
 	ret
 
 Func_03c9::
-	ld a, $0f
+	ld a, BANK(Func_0f_4000)
 	call Bankswitch
-	call $4000
+	call Func_0f_4000
 	ret
 
 Func_03d2::
-	ld a, $0d
+	ld a, BANK(Func_0d_401d)
 	call Bankswitch
-	call $401d
+	call Func_0d_401d
 	ret
 
 Func_03db::
-	ld a, $0e
+	ld a, BANK(Func_0e_4000)
 	call Bankswitch
-	call $4000
+	call Func_0e_4000
 	ret
 
 Func_03e4::
-	ld a, $77
+	ld a, BANK(Func_77_461c)
 	call Bankswitch
-	call $461c
+	call Func_77_461c
 	ret
 
 Func_03ed::
-	ld a, $0e
+	ld a, BANK(Func_0e_574a)
 	call Bankswitch
-	call $574a
+	call Func_0e_574a
 	ret
 
 Func_03f6::
@@ -869,7 +869,9 @@ Func_0653:
 	ld c, a
 	ret
 
-Func_066f::
+PointerTable16::
+; de = [(hl * 2) + de]
+; hl = de
 	add hl, hl
 	add hl, de
 	ld a, [hli]
@@ -879,16 +881,17 @@ Func_066f::
 	ld l, e
 	ret
 
-Func_0677::
+FarPointerTable16::
 	di
 	ld [rROMB0], a
-	call Func_066f
+	call PointerTable16
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
 	ret
 
 Func_0685::
+; b = [a:hl]
 	di
 	ld [rROMB0], a
 	ld b, [hl]
@@ -898,15 +901,17 @@ Func_0685::
 	ret
 
 Func_0691::
+; Sets hl to $03e7 if it isn't already or if it's bigger than $03e7.
 	push af
 	push de
 	ld de, $03e7
-	call Func_00d2
-	jr z, .asm_06a3
-	call Func_00cd
-	jr c, .asm_06a3
+	call CompareHLtoDE
+	jr z, .exit
+	call SubtractDEfromHL
+	jr c, .exit
 	ld hl, $03e7
-.asm_06a3
+
+.exit
 	pop de
 	pop af
 	ret
@@ -1429,7 +1434,7 @@ Func_091a::
 	ld c, l
 	push de
 	ld de, unk_0a65
-	call PointerTable
+	call PointerTable8
 	pop de
 	inc hl
 	ld a, [hl]
@@ -1491,18 +1496,18 @@ Func_095f::
 	add a
 	ld h, 0
 	ld l, a
-	ld bc, $40fa
+	ld bc, unk_7f_40fa
 	add hl, bc
-	ld c, $04
+	ld c, 4
 	di
-	ld a, $7f
+	ld a, BANK(unk_7f_40fa)
 	ld [rROMB0], a
-.asm_0970
+.copy
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec c
-	jr nz, .asm_0970
+	jr nz, .copy
 
 	ldh a, [hff8e]
 	ld [rROMB0], a
@@ -1514,10 +1519,10 @@ Func_097d::
 	add hl, hl
 	add hl, hl
 	add hl, hl
-	ld bc, $6689
+	ld bc, unk_4f_6689
 	add hl, bc
-	ld c, $08
-	ld a, $4f
+	ld c, 8
+	ld a, BANK(unk_4f_6689)
 	call FarCopyBytes8
 	pop hl
 	ret
@@ -1525,13 +1530,13 @@ Func_097d::
 Func_098e::
 	push hl
 	push de
-	ld de, $5a43
-	ld a, $49
-	call Func_0677
+	ld de, Table_49_5a43
+	ld a, BANK(Table_49_5a43)
+	call FarPointerTable16
 	pop de
-	ld b, $ff
-	ld a, $49
-	call Func_00df
+	ld b, $ff ; terminator
+	ld a, BANK(Table_49_5a43)
+	call FarCopyBytesTerminator
 	pop hl
 	ret
 
@@ -1542,10 +1547,10 @@ Func_09a2::
 	add hl, hl
 	add hl, hl
 	add hl, bc
-	ld bc, $4946
+	ld bc, unk_50_4946
 	add hl, bc
-	ld c, $04
-	ld a, $50
+	ld c, 4
+	ld a, BANK(unk_50_4946)
 	call FarCopyBytes8
 	pop hl
 	ret
@@ -1557,31 +1562,31 @@ Func_09b5::
 	add hl, hl
 	add hl, hl
 	add hl, de
-	ld de, $4946
+	ld de, unk_50_4946
 	add hl, de
 	ld de, wccc3
-	ld c, $05
-	ld a, $50
+	ld c, 5
+	ld a, BANK(unk_50_4946)
 	call FarCopyBytes8
 	pop hl
 	ret
 
 Func_09cb::
 	push hl
-	ld de, $4660
+	ld de, unk_50_4660
 	add hl, de
 	ld de, wcc5f
-	ld c, $01
-	ld a, $50
+	ld c, 1
+	ld a, BANK(unk_50_4660)
 	call FarCopyBytes8
 	ld a, [wcc5f]
 	pop hl
 	ret
 
 Func_09df::
-	ld de, $47d3
+	ld de, unk_50_47d3
 	add hl, de
-	ld a, $50
+	ld a, BANK(unk_50_47d3)
 	ld [rROMB0], a
 	ld b, [hl]
 	ldh a, [hff8e]
@@ -1590,25 +1595,26 @@ Func_09df::
 	ret
 
 Func_09f0::
-	ld de, $4000
-	ld a, $4f
-	call Func_0677
-	ld a, $4f
+	ld de, Table_4f_4000
+	ld a, BANK(Table_4f_4000)
+	call FarPointerTable16
+	ld a, BANK(Table_4f_4000) ; useless
 	ret
 
 Func_09fb::
-	ld de, $7acf
-	ld a, $4d
-	call Func_0677
+	ld de, Table_4d_7acf
+	ld a, BANK(Table_4d_7acf)
+	call FarPointerTable16
 	ret
 
 Func_0a04::
-	ld a, $29
+	ld a, BANK(Table_29_4000)
 	ld [rROMB0], a
 	ld a, [wc132]
 	and $0f
-	ld de, $4000
-	call PointerTable
+	ld de, Table_29_4000
+	call PointerTable8
+
 	ld hl, wc133
 	ld a, [hl]
 	inc [hl]
@@ -2126,245 +2132,7 @@ Func_0ed2::
 	ldh [hfffc], a
 	ret
 
-; Not quite sure how the next 3 functions are scoped
-; They are all involved in 2bpp decompression
-
-Func_0ef6::
-; Copy a bytes from de to hl
-	and $3f
-	inc a
-	ld b, a
-	srl b
-	jr nc, .check_zero_length
-	ld a, [de]
-	inc de
-	ld [hli], a
-
-.check_zero_length
-	jp z, Func_0f79.next_byte
-
-.copy
-REPT 2
-	ld a, [de]
-	inc de
-	ld [hli], a
-ENDR
-	dec b
-	jr z, Func_0f79.next_byte
-
-REPT 2
-	ld a, [de]
-	inc de
-	ld [hli], a
-ENDR
-	dec b
-	jr z, Func_0f79.next_byte
-
-REPT 2
-	ld a, [de]
-	inc de
-	ld [hli], a
-ENDR
-	dec b
-	jr z, Func_0f79.next_byte
-
-REPT 2
-	ld a, [de]
-	inc de
-	ld [hli], a
-ENDR
-	dec b
-	jr nz, .copy
-
-; Next byte
-	ld a, [de]
-	bit 7, a
-	jr nz, Func_0f34
-	bit 6, a
-	jp nz, Func_0f79.asm_0fc0
-	jr Func_0f79.asm_0f94
-
-Func_0f34::
-	inc de
-	bit 6, a
-	jr nz, Func_0ef6
-
-; Repeat previous bytes
-	and $3f
-	ld b, a
-	ld a, [de]
-	inc de
-	add l
-	ld c, a
-	ld a, [de]
-	inc de
-	adc h
-	push de
-	ld d, a
-	ld e, c
-REPT 4
-	ld a, [de]
-	ld [hli], a
-	inc de
-ENDR
-	srl b
-	jr nc, .asm_0f59 ; is byte less than 2?
-
-	ld a, [de]
-	ld [hli], a
-	inc de
-
-.asm_0f59:
-	jr z, .next_byte
-
-.asm_0f5b:
-REPT 2
-	ld a, [de]
-	ld [hli], a
-	inc de
-ENDR
-	dec b
-	jr z, .next_byte
-REPT 2
-	ld a, [de]
-	ld [hli], a
-	inc de
-ENDR
-	dec b
-	jr nz, .asm_0f5b
-
-.next_byte
-	pop de
-	ld a, [de]
-	bit 7, a
-	jr nz, Func_0f34
-	bit 6, a
-	jr nz, Func_0f79.asm_0fc0
-	jr Func_0f79.asm_0f94
-
-Func_0f79::
-; 2bpp decompression entry
-	push hl
-	di
-	ldh [hROMBank], a
-	ld [rROMB0], a
-	ei
-	xor a
-	ld [rROMB1], a
-; swap hl and de
-	ld a, e
-	ld e, l
-	ld l, a
-	ld a, h
-	ld h, d
-	ld d, a
-
-.next_byte
-	ld a, [de]
-	bit 7, a
-	jr nz, Func_0f34
-	bit 6, a
-	jr nz, .asm_0fc0
-
-.asm_0f94:
-	and $3f
-	jr z, .asm_0ff0
-	inc de
-	ld b, a
-	ld a, [de]
-	inc de
-	ld [hli], a
-	ld [hli], a
-	srl b
-	jr nc, .asm_0fa3
-	ld [hli], a
-
-.asm_0fa3
-	jr z, .next_byte
-
-.asm_0fa5
-	ld [hli], a
-	ld [hli], a
-	dec b
-	jr z, .next_byte
-	ld [hli], a
-	ld [hli], a
-	dec b
-	jr z, .next_byte
-	ld [hli], a
-	ld [hli], a
-	dec b
-	jr nz, .asm_0fa5
-
-	ld a, [de]
-	bit 7, a
-	jp nz, Func_0f34
-	bit 6, a
-	jr nz, .asm_0fc0
-	jr .asm_0f94
-
-.asm_0fc0
-	inc de
-	and $3f
-	inc a
-	ld c, a
-	ld a, [de]
-	ld b, a
-	inc de
-	ld a, [de]
-	push de
-	ld e, a
-	ld d, b
-REPT 2
-	ld a, d
-	ld [hli], a
-	ld a, e
-	ld [hli], a
-ENDR
-
-.asm_0fd4
-	ld a, d
-	ld [hli], a
-	ld a, e
-	ld [hli], a
-	dec c
-	jr z, .asm_0fe2
-	ld a, d
-	ld [hli], a
-	ld a, e
-	ld [hli], a
-	dec c
-	jr nz, .asm_0fd4
-
-.asm_0fe2
-	pop de
-	inc de
-	ld a, [de]
-	bit 7, a
-	jp nz, Func_0f34
-	bit 6, a
-	jr nz, .asm_0fc0
-	jr .asm_0f94
-
-.asm_0ff0
-	pop bc
-	inc de
-	ld a, e
-	ld e, l
-	ld l, a
-	sub c
-	ld c, a
-	ld a, d
-	ld d, h
-	ld h, a
-	sbc b
-	ld b, a
-	di
-	ldh a, [hff8e]
-	ld [rROMB0], a
-	ldh [hROMBank], a
-	ei
-	ret
+INCLUDE "home/decompress.asm"
 
 Func_1006::
 	ld a, l
@@ -2995,11 +2763,11 @@ Func_1451::
 	ld e, l
 	add hl, hl
 	add hl, de
-	ld de, $5620
+	ld de, unk_50_5620
 	add hl, de
 	ld de, wccc0
-	ld c, $03
-	ld a, $50
+	ld c, 3
+	ld a, BANK(unk_50_5620)
 	call FarCopyBytes8
 
 	ld hl, wccc0
@@ -3024,7 +2792,7 @@ Func_1451::
 	res 7, [hl] ; LCDCF_OFF
 	ld hl, w4d000
 	ld de, $8800
-	ld bc, $0540
+	ld bc, $540
 	call CopyBytes16
 	ld hl, rLCDC
 	set 7, [hl] ; LCDCF_ON
@@ -3043,11 +2811,11 @@ Func_14a1::
 	add hl, hl
 	add hl, de
 	push hl
-	ld de, $5dd6
+	ld de, unk_50_5dd6
 	add hl, de
 	ld de, wccc0
-	ld c, $03
-	ld a, $50
+	ld c, 3
+	ld a, BANK(unk_50_5dd6)
 	call FarCopyBytes8
 	ld hl, wccc0
 	ld a, [hli]
@@ -3059,11 +2827,11 @@ Func_14a1::
 	call FarCopyBytes8
 
 	pop hl
-	ld de, $658c
+	ld de, unk_50_658c
 	add hl, de
 	ld de, wccc0
-	ld c, $03
-	ld a, $50
+	ld c, 3
+	ld a, BANK(unk_50_658c)
 	call FarCopyBytes8
 	ld hl, wccc0
 	ld a, [hli]
@@ -3076,69 +2844,69 @@ Func_14a1::
 
 	ld a, [wcc5f]
 	ld de, .unk_14fb
-	call PointerTable
+	call PointerTable8
 	ld de, wcc90
 	ld c, $10
-	ld a, $50
+	ld a, BANK(unk_50_4300)
 	call FarCopyBytes8
 	pop hl
 	ret
 
 .unk_14fb
-	dw $4300
-	dw $4300
-	dw $4310
-	dw $4310
-	dw $4320
-	dw $4320
-	dw $4330
+	dw unk_50_4300
+	dw unk_50_4300
+	dw unk_50_4310
+	dw unk_50_4310
+	dw unk_50_4320
+	dw unk_50_4320
+	dw unk_50_4330
 
 Func_1509::
 	push hl
 	ld a, [wcc5f]
 	ld de, .unk_1523
-	call PointerTable
+	call PointerTable8
 	xor a
 	ldh [rVBK], a
 	ld de, $8d40
 	ld bc, $c0
-	ld a, $50
+	ld a, BANK(unk_50_4000)
 	call FarCopyBytesVRAM
 	pop hl
 	ret
 
 .unk_1523
-	dw $4000
-	dw $4000
-	dw $40c0
-	dw $40c0
-	dw $4180
-	dw $4180
-	dw $4240
+	dw unk_50_4000
+	dw unk_50_4000
+	dw unk_50_40c0
+	dw unk_50_40c0
+	dw unk_50_4180
+	dw unk_50_4180
+	dw unk_50_4240
 
 Func_1531::
 	push hl
-	ld de, $4340
+	ld de, unk_50_4340
 	ld hl, $d000
 	ld b, $14
 	ld c, $12
 	push bc
-	ld a, $50
+	ld a, BANK(unk_50_4340)
 	call FarPlaceTilemap
-	ld de, $44a8
+	ld de, unk_50_44a8
 	ld hl, $d300
 	pop bc
-	ld a, $50
+	ld a, BANK(unk_50_44a8)
 	call FarPlaceTilemap
 	pop de
 	push de
-	ld hl, $6d42
+	ld hl, unk_50_6d42
 	add hl, de
 	add hl, de
 	add hl, de
 	ld de, wccc0
-	ld c, $03
-	ld a, $50
+	ld c, 3
+	ld a, BANK(unk_50_6d42)
 	call FarCopyBytes8
 
 	ld hl, wccc0
@@ -3168,13 +2936,13 @@ Func_1580::
 	ld de, $d1c6
 	ld b, $ff
 	ld a, $4f
-	call Func_00df
+	call FarCopyBytesTerminator
 	ld de, $d1e6
 	ld a, $4f
-	call Func_00df
+	call FarCopyBytesTerminator
 	ld de, $d206
 	ld a, $4f
-	call Func_00df
+	call FarCopyBytesTerminator
 	pop hl
 	ret
 
@@ -3193,23 +2961,24 @@ Func_15a3::
 	ld a, [wccc6]
 	ld de, $8ec0
 	call Func_1628
+
 	ld a, [wccc7]
 	dec a
-	ld de, $15e3
-	call PointerTable
+	ld de, .unk_15e3
+	call PointerTable8
 	ld hl, $d185
-	ld b, $0a
-	ld c, $02
-	ld a, $50
+	ld b, 10
+	ld c, 2
+	ld a, BANK(unk_50_4610)
 	call FarPlaceTilemap
 	pop hl
 	ret
 
 .unk_15e3
-	dw $4610
-	dw $4624
-	dw $4638
-	dw $464c
+	dw unk_50_4610
+	dw unk_50_4624
+	dw unk_50_4638
+	dw unk_50_464c
 
 Func_15eb::
 	push hl
@@ -3217,22 +2986,18 @@ Func_15eb::
 	ld e, l
 	add hl, hl
 	add hl, de
-	ld de, $74f8
+	ld de, unk_50_74f8
 	add hl, de
 	ld de, wccc0
-	ld c, $03
-	ld a, $50
+	ld c, 3
+	ld a, BANK(unk_50_74f8)
 	call FarCopyBytes8
 	pop hl
 	ret
 
 Func_1600::
 	ld a, $30
-
-Func_1602:
 	ldh [hff96], a
-
-Func_1604:
 	ld a, $18
 	ldh [hff97], a
 	ld hl, wccc0
@@ -3802,12 +3567,12 @@ Func_3949::
 	cp $03
 	jr z, .asm_397a
 
-	ld hl, $4000
+	ld hl, Table_78_4000
 	add hl, de
 	add hl, de
 	ld a, [wcf7c]
 	push af
-	ld a, $78
+	ld a, BANK(Table_78_4000)
 	ld [rROMB0], a
 	ld e, [hl]
 	inc hl
@@ -4404,18 +4169,17 @@ Func_3cbf::
 	pop bc
 	ld hl, wcea0
 	xor a
+REPT 4
 	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
+ENDR
 	ld hl, wce9b
 	res 0, [hl]
-	ld hl, $40c0
+	ld hl, unk_78_40c0
 	ld b, 0
 	add hl, bc
 	add hl, bc
 	add hl, bc
-	ld a, $78
+	ld a, BANK(unk_78_40c0)
 	ld [rROMB0], a
 	ld a, [hli]
 	ld e, a

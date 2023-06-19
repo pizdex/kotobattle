@@ -34,7 +34,8 @@ Func_001f::
 	db $1f
 
 SECTION "rst28", ROM0[$0028]
-Func_0028::
+CopyBytesTerminator::
+; Copy bytes from 'hl' to 'de until 'b' terminator is reached.
 	ld c, 0
 .asm_002a
 	ld a, [hli]
@@ -70,8 +71,9 @@ SECTION "serial", ROM0[$0058]
 SECTION "joypad", ROM0[$0060]
 	reti
 
-PointerTable::
-; hl = [(a * 2) + de]
+PointerTable8::
+; de = [(a * 2) + de]
+; hl = de
 	ld h, 0
 	ld l, a
 	add hl, hl
@@ -83,11 +85,11 @@ PointerTable::
 	ld l, e
 	ret
 
-FarPointerTable::
+FarPointerTable8::
 	di
 	ld [rROMB0], a
 	ld a, b
-	call PointerTable
+	call PointerTable8
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
@@ -154,18 +156,19 @@ FillBytes::
 	ld a, d
 	inc b
 	inc c
-	jr .asm_00bf
+	jr .start
 
-.asm_00be
+.fill
 	ld [hli], a
-.asm_00bf
+.start
 	dec c
-	jr nz, .asm_00be
+	jr nz, .fill
 	dec b
-	jr nz, .asm_00be
+	jr nz, .fill
 	ret
 
 Func_00c6::
+; hl = hl - de
 	ld a, l
 	sub e
 	ld l, a
@@ -174,14 +177,16 @@ Func_00c6::
 	ld h, a
 	ret
 
-Func_00cd::
+SubtractDEfromHL::
+; Set carry if hl < de
 	ld a, l
 	sub e
 	ld a, h
 	sbc d
 	ret
 
-Func_00d2:
+CompareHLtoDE::
+; Set z if hl == de
 	ld a, h
 	cp d
 	ret nz
@@ -197,10 +202,10 @@ Func_00d9::
 	inc a
 	ret
 
-Func_00df::
+FarCopyBytesTerminator::
 	di
 	ld [rROMB0], a
-	rst Func_0028
+	rst CopyBytesTerminator
 	ldh a, [hff8e]
 	ld [rROMB0], a
 	ei
