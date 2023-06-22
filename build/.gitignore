@@ -1,0 +1,11 @@
+# compiled objects
+*.o
+
+# compiled roms
+*.gbc
+*.gb
+
+# rgbds extras
+*.map
+*.sym
+
